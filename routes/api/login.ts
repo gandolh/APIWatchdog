@@ -25,8 +25,8 @@ export const handler: Handlers = {
     const email = form.get("email")?.toString() ?? "";
     const password = form.get("password")?.toString() ?? "";
 
-    // if (await checkCredentials(email, password)) {
-    if (true) {
+    if (await checkCredentials(email, password)) {
+    // if (true) {
       const headers = new Headers();
       setCookie(headers, {
         name: "auth",
