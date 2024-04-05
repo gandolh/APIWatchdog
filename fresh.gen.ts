@@ -7,7 +7,8 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_login from "./routes/api/login.ts";
 import * as $api_logout from "./routes/api/logout.ts";
 import * as $index from "./routes/index.tsx";
-
+import * as $Login from "./islands/Login.tsx";
+import * as $Register from "./islands/Register.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -18,7 +19,10 @@ const manifest = {
     "./routes/api/logout.ts": $api_logout,
     "./routes/index.tsx": $index,
   },
-  islands: {},
+  islands: {
+    "./islands/Login.tsx": $Login,
+    "./islands/Register.tsx": $Register,
+  },
   baseUrl: import.meta.url,
 } satisfies Manifest;
 
