@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    userID: {
-        type: String,
-        required: true,
-    },
     username: {
         type: String,
         required: true,
@@ -17,10 +13,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    apps: {
+        type: Array<string>,
+        default: [],
+    },
 });
 
 const userDb = mongoose.connection.useDb("API-Watchdog");
 
-const Users = userDb.model("User", userSchema);
+const Users = userDb.model("users", userSchema);
 
 export default Users;
