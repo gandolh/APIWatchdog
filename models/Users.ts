@@ -1,4 +1,4 @@
-import mongoose from "npm:mongoose@^6.7";
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
     userID: {

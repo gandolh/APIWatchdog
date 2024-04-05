@@ -1,5 +1,5 @@
 import { load } from "https://deno.land/std@0.221.0/dotenv/mod.ts";
-import moongoose from "npm:mongoose@^6.7";
+import moongoose from "mongoose";
 
 const dbConnect = async () => {
 	const env = await load();
