@@ -1,11 +1,10 @@
 import type { Handlers, PageProps } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
 import Layout from "../components/Layout.tsx";
-export interface Data {
-  isAllowed: boolean;
-}
+import { UserData } from "../islands/AppStateProvider.tsx";
 
-export default function Home({ data }: PageProps<Data>) {
+
+export default function Home({ data }: PageProps<UserData>) {
   return (
     <div>
       <Layout data={data}>
@@ -17,7 +16,7 @@ export default function Home({ data }: PageProps<Data>) {
   );
 }
 
-export const handler: Handlers<Data> = {
+export const handler: Handlers<UserData> = {
   GET(req, ctx) {
     const cookies = getCookies(req.headers);
 
