@@ -24,5 +24,3 @@ export const handler: Handlers<Data> = {
     return ctx.render!({ isAllowed: cookies.auth === "bar" });
   },
 };
-
-;

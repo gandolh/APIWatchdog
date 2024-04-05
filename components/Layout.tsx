@@ -11,7 +11,7 @@ export default function Layout({ children, data }: LayoutProps) {
     return (
         <>
             <NavBar isAllowed={data.isAllowed} />
-            <div className="container-md mx-auto">
+            <div className="container-md mx-12 my-6">
                 {children}
             </div>
         </>

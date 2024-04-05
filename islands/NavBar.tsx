@@ -3,8 +3,8 @@ import { Disclosure, Menu, Transition } from 'headlessui'
  import { HiBars3, HiOutlineBell , HiOutlineXMark  } from "react-icons/hi2"
 
 const navigation = [
-  { name: 'Api Dashboard', href: '#', current: true },
-  { name: 'Dev Dashboard', href: '#', current: false },
+  { name: 'Api Dashboard', href: 'pubboard', current: true },
+  { name: 'Dev Dashboard', href: 'devboard', current: false },
 ]
 
 function classNames(...classes : string[]) {
