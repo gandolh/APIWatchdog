@@ -6,10 +6,15 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_login from "./routes/api/login.ts";
 import * as $api_logout from "./routes/api/logout.ts";
+import * as $devboard from "./routes/devboard.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
+import * as $pubboard from "./routes/pubboard.tsx";
+import * as $AppStateProvider from "./islands/AppStateProvider.tsx";
 import * as $LoginComp from "./islands/LoginComp.tsx";
 import * as $NavBar from "./islands/NavBar.tsx";
+import * as $PubDashCard from "./islands/PubDashCard.tsx";
+import * as $PubDashboardComp from "./islands/PubDashboardComp.tsx";
 import * as $Register from "./islands/Register.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -19,12 +24,17 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/api/login.ts": $api_login,
     "./routes/api/logout.ts": $api_logout,
+    "./routes/devboard.tsx": $devboard,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
+    "./routes/pubboard.tsx": $pubboard,
   },
   islands: {
+    "./islands/AppStateProvider.tsx": $AppStateProvider,
     "./islands/LoginComp.tsx": $LoginComp,
     "./islands/NavBar.tsx": $NavBar,
+    "./islands/PubDashCard.tsx": $PubDashCard,
+    "./islands/PubDashboardComp.tsx": $PubDashboardComp,
     "./islands/Register.tsx": $Register,
   },
   baseUrl: import.meta.url,

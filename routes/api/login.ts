@@ -4,17 +4,17 @@ import { compareSync } from "bcrypt";
 import { getUserByEmail } from "../../services/UserService.ts";
 
 const checkCredentials = async (email: string, password: string) => {
-	const user = await getUserByEmail(email);
+  const user = await getUserByEmail(email);
 
-	if (!user) {
-		return false;
-	}
+  if (!user) {
+    return false;
+  }
 
-	if (!compareSync(password, user.password)) {
-		return false;
-	}
+  if (!compareSync(password, user.password)) {
+    return false;
+  }
 
-	return true;
+  return true;
 };
 
 const responsePage = `<!DOCTYPE html>
