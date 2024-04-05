@@ -29,7 +29,12 @@
     "tailwindcss": "npm:tailwindcss@3.4.1",
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
-    "$std/": "https://deno.land/std@0.216.0/"
+    "$std/": "https://deno.land/std@0.216.0/",
+    "headlessui": "https://esm.sh/@headlessui/react@1.6.6?alias=react:preact/compat,react-dom:preact/compat,@types/react:preact/compat&deps=preact@10.19.6",
+    "react-icons/hi": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi@1.0.9/mod.ts",
+    "react-icons/hi/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi@1.0.9/ico/",
+    "react-icons/hi2": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi2@1.0.9/mod.ts", 
+    "react-icons/hi2/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi2@1.0.9/ico/"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

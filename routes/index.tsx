@@ -1,6 +1,8 @@
 import type { Handlers, PageProps } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
-import Login from "../components/Login.tsx";
+import Layout from "../components/Layout.tsx";
+// import Login from "../islands/Login.tsx";
+import Login from "../islands/Login.tsx";
 interface Data {
   isAllowed: boolean;
 }
@@ -8,10 +10,14 @@ interface Data {
 export default function Home({ data }: PageProps<Data>) {
   return (
     <div>
-    <div>
+    {/* <div>
       You currently {data.isAllowed ? "are" : "are not"} logged in.
-    </div>
-    {!data.isAllowed ? <Login /> : <a href="/api/logout">Logout</a>}
+    </div> */}
+    <Layout>
+      <h1>Home</h1>
+      <p>Welcome to your new app!</p>
+    </Layout>
+    {/* {!data.isAllowed ? <Login /> : <a href="/api/logout">Logout</a>} */}
   </div>
   );
 }
