@@ -9,17 +9,8 @@
     "preview": "deno run -A main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
-  "lint": {
-    "rules": {
-      "tags": [
-        "fresh",
-        "recommended"
-      ]
-    }
-  },
-  "exclude": [
-    "**/_fresh/*"
-  ],
+  "lint": { "rules": { "tags": ["fresh", "recommended"] } },
+  "exclude": ["**/_fresh/*"],
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.6.8/",
     "preact": "https://esm.sh/preact@10.19.6",
@@ -33,15 +24,12 @@
     "headlessui": "https://esm.sh/@headlessui/react@1.6.6?alias=react:preact/compat,react-dom:preact/compat,@types/react:preact/compat&deps=preact@10.19.6",
     "react-icons/hi": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi@1.0.9/mod.ts",
     "react-icons/hi/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi@1.0.9/ico/",
-    "react-icons/hi2": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi2@1.0.9/mod.ts", 
+    "react-icons/hi2": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi2@1.0.9/mod.ts",
     "react-icons/hi2/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi2@1.0.9/ico/",
     "bcrypt": "https://deno.land/x/bcrypt@v0.3.0/mod.ts",
     "mongoose": "npm:mongoose@^6.7",
     "mongoose/": "npm:/mongoose@^6.7/"
   },
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact"
-  },
+  "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "nodeModulesDir": true
 }

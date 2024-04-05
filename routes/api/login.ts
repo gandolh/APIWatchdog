@@ -17,6 +17,17 @@ const checkCredentials = async (email: string, password: string) => {
 	return true;
 };
 
+const responsePage = `<!DOCTYPE html>
+						<html>
+						<head>
+							<title>Forbidden</title>
+						</head>
+						<body>
+							<h1>Forbidden</h1>
+							<p>Invalid email or password.</p>
+						</body>
+						</html>`
+
 export const handler: Handlers = {
 	async POST(req) {
 		const url = new URL(req.url);
@@ -43,8 +54,11 @@ export const handler: Handlers = {
 				headers,
 			});
 		} else {
-			return new Response(null, {
+			return new Response(responsePage, {
 				status: 403,
+				headers: {
+					"content-type": "text/html",
+				},
 			});
 		}
 	},
