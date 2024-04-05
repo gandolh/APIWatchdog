@@ -4,5 +4,8 @@ import dev from "$fresh/dev.ts";
 import config from "./fresh.config.ts";
 
 import "$std/dotenv/load.ts";
+import dbConnect from "./utils/dbConnect.ts";
+
+dbConnect();
 
 await dev(import.meta.url, "./main.ts", config);

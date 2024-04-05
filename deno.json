@@ -34,7 +34,10 @@
     "react-icons/hi": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi@1.0.9/mod.ts",
     "react-icons/hi/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi@1.0.9/ico/",
     "react-icons/hi2": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi2@1.0.9/mod.ts", 
-    "react-icons/hi2/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi2@1.0.9/ico/"
+    "react-icons/hi2/": "https://cdn.jsdelivr.net/gh/urielch/react-icons-hi2@1.0.9/ico/",
+    "bcrypt": "https://deno.land/x/bcrypt@v0.3.0/mod.ts",
+    "mongoose": "npm:mongoose@^6.7",
+    "mongoose/": "npm:/mongoose@^6.7/"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
