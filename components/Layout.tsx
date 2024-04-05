@@ -1,15 +1,19 @@
 import NavBar from "../islands/NavBar.tsx";
 import type { ComponentChildren } from "preact";
+import { Data } from "../routes/index.tsx";
 
 interface LayoutProps {
     children: ComponentChildren;
+    data: Data;
 }
 
-export default function Layout({children} : LayoutProps){
+export default function Layout({ children, data }: LayoutProps) {
     return (
-        <div className="container">
-            <NavBar/>
-            {children}
-        </div>
+        <>
+            <NavBar isAllowed={data.isAllowed} />
+            <div className="container-md mx-auto">
+                {children}
+            </div>
+        </>
     );
 }
