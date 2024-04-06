@@ -6,7 +6,7 @@ import ProfileDropdown from "../components/ProfileDropdown.tsx";
 import Button from "../components/Button.tsx";
 
 const navigation = [
-  { name: "Api Dashboard", href: "pubboard", current: true, needsAuth: false },
+  { name: "Api Dashboard", href: "/", current: true, needsAuth: false },
   { name: "Dev Dashboard", href: "devboard", current: false, needsAuth: true },
 ];
 
