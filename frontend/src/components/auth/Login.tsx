@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import classes from "./Login.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
-// import { GoogleLoginCall, LoginCall } from "../../apiCallers/AuthApiCaller";
+ import { GoogleLoginCall, LoginCall } from "../../apiCallers/AuthApiCaller";
 
 import { useGoogleLogin } from "@react-oauth/google";
 import { useAuthContext } from "./AuthContext";
