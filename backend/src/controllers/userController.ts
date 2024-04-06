@@ -66,3 +66,13 @@ export const getUserApps = async (email: string) => {
 
   return { status: 200, apps: user.apps};
 }
+
+export const updateInterval = async (email: string, interval: number) => {
+  const user = await getUserByEmail(email);
+
+  if (!user) return 404;
+
+  user.updateInterval = interval;
+  await user.save();
+  return 200;
+}
