@@ -11,30 +11,36 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { useState } from "react";
+import { createApp } from "../ApiCaller";
 
 interface newEndpoint {
   name: string;
   url: string;
 }
 
-const AddAppForm = () => {
-  const [appName, setAppName] = useState<string>();
-//   const [endpoints, setEndpoints] = useState<newEndpoint[]>([]);
-
-//   const createNewEndpoint = () => {
-//     setEndpoints([...endpoints, { name: "", url: "" }]);
-//   };
-
-//   const updateEndpoint = (index : number, newName : string, newUrl : string) => {
-//         const newEndpoints = [...endpoints];
-//         newEndpoints[index].name = newName;
-//         newEndpoints[index].url = newUrl;
-//   }
-
-const HandleAddApp = () => {
-    console.log('handleAdd');
+interface AddAppFormProps {
+  OnClose: () => void;
 }
-  
+
+const AddAppForm = ({ OnClose }: AddAppFormProps) => {
+  const [appName, setAppName] = useState<string>("");
+  //   const [endpoints, setEndpoints] = useState<newEndpoint[]>([]);
+
+  //   const createNewEndpoint = () => {
+  //     setEndpoints([...endpoints, { name: "", url: "" }]);
+  //   };
+
+  //   const updateEndpoint = (index : number, newName : string, newUrl : string) => {
+  //         const newEndpoints = [...endpoints];
+  //         newEndpoints[index].name = newName;
+  //         newEndpoints[index].url = newUrl;
+  //   }
+
+  const HandleAddApp = () => {
+    createApp(appName).then((el) => {
+      if (el === 0) OnClose();
+    });
+  };
 
   return (
     <Stack>
@@ -74,13 +80,20 @@ const HandleAddApp = () => {
   );
 };
 
-const AddAppCard = () => {
-  const [opened, { open, close }] = useDisclosure(false);
+interface AddAppCard {
+  OnRefetchData: () => void;
+}
 
+const AddAppCard = ({ OnRefetchData }: AddAppCard) => {
+  const [opened, { open, close }] = useDisclosure(false);
+  function handleClose() {
+    close();
+    OnRefetchData();
+  }
   return (
     <>
       <Modal opened={opened} onClose={close} title="Add app" centered>
-        <AddAppForm />
+        <AddAppForm OnClose={handleClose} />
       </Modal>
       <Card
         onClick={open}
