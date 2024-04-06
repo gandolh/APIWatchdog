@@ -13,9 +13,14 @@ export type PublicCardData = {
     EndpointData: EndpointData[];
 }
 
-const Card = ({ app }: { app: PublicCardData }) => {
+interface CardProps {
+    app: PublicCardData,
+    OnClick? : ()=> void
+}
+
+const Card = ({ app, OnClick }: CardProps) => {
     return (
-        <div class="max-w-sm rounded overflow-hidden shadow-lg py-4 bg-white">
+        <div class="max-w-sm rounded overflow-hidden shadow-lg py-4 bg-white" onClick={OnClick}>
             <div class="px-6">
                 <div class="font-bold text-xl mb-2">{app.AppName}</div>
             </div>
