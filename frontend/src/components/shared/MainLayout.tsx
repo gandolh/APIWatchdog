@@ -16,7 +16,7 @@ export default function MainLayout() {
     setNavLinks(navLinksCopy);
   };
 
-  const lightShell = "bg-[#fee]";
+  const lightShell = "bg-[#bde0fe]";
   const darkShell = "bg-[#333]";
   const { colorScheme } = useMantineColorScheme();
 

@@ -35,7 +35,7 @@ const PowerButton = ({ authenticatedUser }: PowerButtonProps) => {
 
                                 <div style={{ flex: 1 }}>
                                     <Text size="sm" fw={500}>
-                                        {authenticatedUser.firstName + ' ' + authenticatedUser.lastName}
+                                        {authenticatedUser.username}
                                     </Text>
 
                                     <Text c="dimmed" size="xs">

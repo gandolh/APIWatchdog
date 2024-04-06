@@ -19,8 +19,8 @@ import AuthGroupMobile from './AuthGroupMobile';
 import { getLocalStorageUser } from '../../apiCallers/AuthApiCaller';
 import { useAuthContext } from '../auth/AuthContext';
 import { useEffect } from 'react';
+import { MantineLogo } from '@mantinex/mantine-logo';
 // import classes from '../css/HeaderMegaMenu.module.css';
-
 type HeaderMegaMenuProps = {
   NavLinks: Array<NavLink>;
   handleChangeActive: (id: number) => void;
@@ -47,15 +47,15 @@ export function HeaderMegaMenu({ NavLinks, handleChangeActive }: HeaderMegaMenuP
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Group gap={8}>
-            <Image w={30} h={30} src="NutrishaLogoFin.webp" alt="Mantine logo" />
+            <Image w={30} h={30} src="dogWatcher.logo.png" alt="Dog logo" />
             <Text
               size="xl"
               fw={900}
               variant="gradient"
-              gradient={{ from: 'pink', to: 'violet', deg: 90 }}
-              style={{ marginTop: 8}}
+              gradient={{ from: 'blue', to: 'violet', deg: 90 }}
+              style={{ marginTop: 0 }}
             >
-              Nutrisha
+              WatchDog
             </Text>
           </Group>
 
