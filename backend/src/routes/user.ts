@@ -52,4 +52,26 @@ userRouter.post('/addApp', async (req, res) => {
     }
 });
 
+userRouter.post('/removeApp', async (req, res) => {
+    try {
+        const { email, appName } = req.body;
+        const status = await removeAppFromUser(email, appName);
+        res.sendStatus(status); 
+    } catch(err) {
+        err instanceof Error && res.status(500).json({ Error: err.message });
+        console.error(err);
+    }
+});
+
+userRouter.post('/updatePassword', async (req, res) => {
+    try {
+        const { email, newPassword, oldPassword } = req.body;
+        const status = await updatePassword(email, newPassword, oldPassword);
+        res.sendStatus(status);
+    } catch(err) {
+        err instanceof Error && res.status(500).json({ Error: err.message });
+        console.error(err);
+    }
+});
+
 export default userRouter;
