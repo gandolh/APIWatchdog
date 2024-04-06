@@ -86,6 +86,16 @@ const EndpointCard = ({ name, status, logs }: EndpointCardProps) => {
   );
 };
 
+
+export function extractLastPathFragment(path: String) : String{
+  if(path === undefined) return "";
+  const parts = path.split("/");
+  if(path[path.length - 1] == '/')
+    return parts[parts.length - 2]; 
+  return parts[parts.length - 1];
+
+}
+
 const EndpointsDashboard = ({ endpoints, appId,  OnRefetchData }: EndpointDashboardsProps) => {
 
   return (
@@ -94,7 +104,7 @@ const EndpointsDashboard = ({ endpoints, appId,  OnRefetchData }: EndpointDashbo
       <AddEndpointCard OnRefetchData={OnRefetchData} appId={appId}/>
         {endpoints.map((endpoint) => (
             <EndpointCard
-              name={endpoint.name}
+              name={extractLastPathFragment(endpoint.name)}
               status={endpoint.status}
               logs={endpoint.logs}
             />
