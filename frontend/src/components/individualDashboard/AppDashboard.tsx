@@ -39,7 +39,7 @@ const AppDashboard = () => {
           <EndpointsDashboard endpoints={data.EndpointData} />
         </div>
         <div className="flex justify-center items-center">
-          <AppPieChart />
+          <AppPieChart endpoints={data.EndpointData}/>
         </div>
       </SimpleGrid>
     </>

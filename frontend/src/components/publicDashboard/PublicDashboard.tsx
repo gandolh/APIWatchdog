@@ -56,10 +56,11 @@ const PublicDashboard = () => {
   return (
     <Container
       fluid
-      pt={30}
+      pt={0}
       className="flex flex-col items-center justify-center"
       style={{ height: "calc(100dvh - 60px - var(--app-shell-padding))" }}
     >
+ 
       <div className="w-full mx-auto h-[80dvh]">
         <PubDashboardComp data={data} />
       </div>

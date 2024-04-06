@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import PubDashCard from "./PubDashCard.tsx";
 import { PublicCardData } from "./PubDashCard.tsx";
+import AddAppCard from "../shared/AddAppCard.tsx";
 
 interface PubDashboardComp{
   data : PublicCardData[]
@@ -9,6 +10,8 @@ interface PubDashboardComp{
 const PubDashboardComp = ({data} : PubDashboardComp) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4">
+
+      <AddAppCard/>
       {data.map((app) => {
         return (
           <Link to={`pubdash/${app._id}`}>
