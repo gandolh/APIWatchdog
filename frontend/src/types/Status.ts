@@ -1,1 +1,1 @@
-export type Status = "Healthy" | "Unstable" | "Down";
+export type Status = "Stable" | "Unstable" | "Down";

@@ -1,4 +1,5 @@
 import { PieChart } from "@mantine/charts";
+import { EndpointData } from "../publicDashboard/PubDashCard";
 const dataPieChart = [
   { name: "USA", value: 400, color: "indigo.6" },
   { name: "India", value: 300, color: "yellow.6" },
@@ -6,8 +7,11 @@ const dataPieChart = [
   { name: "Other", value: 200, color: "gray.6" },
 ];
 
-const AppPieChart = () => {
-  let colors = ["violet.6", "blue.6", "teal.6", "pink.6"];
+interface AppPieChartProps {
+  endpoints : EndpointData[]
+}
+
+const AppPieChart = ({endpoints} : AppPieChartProps) => {
 
   return (
     <>

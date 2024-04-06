@@ -6,7 +6,7 @@ import EndpointsDashboard from "./EndpointDashboards";
 import { Status } from "../../types/Status";
 
 const AppDashboard = () => {
-  const statuses: Status[] = ["Healthy", "Unstable", "Down"];
+  const statuses: Status[] = ["Stable", "Unstable", "Down"];
   const logs: Log[] = Array.from({ length: 10 }, (_, i) => ({
     status: statuses[Math.floor(Math.random() * statuses.length)],
     timeStamp: new Date(Date.now() - i * 5000),
@@ -14,17 +14,17 @@ const AppDashboard = () => {
 
   const data: PublicCardData = {
     AppName: "App1",
-    AppStatus: "Healthy",
+    AppStatus: "Stable",
     EndpointData: [
       {
         EndpointName: "Endpoint1",
-        EndpointStatus: "Healthy",
+        EndpointStatus: "Stable",
         EndpointURL: "http://localhost:8080",
         Logs: logs,
       },
       {
         EndpointName: "Endpoint2",
-        EndpointStatus: "Healthy",
+        EndpointStatus: "Stable",
         EndpointURL: "http://localhost:8080",
         Logs: logs,
       },
@@ -39,7 +39,7 @@ const AppDashboard = () => {
           <EndpointsDashboard endpoints={data.EndpointData} />
         </div>
         <div className="flex justify-center items-center">
-          <AppPieChart />
+          <AppPieChart endpoints={data.EndpointData}/>
         </div>
       </SimpleGrid>
     </>
