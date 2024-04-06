@@ -17,7 +17,7 @@ const updateAllApps = async () => {
         updatedApp = await updateAppEndpoints(updatedApp);
         updatedApp = await updateAppStatus(updatedApp);
 
-        await Apps.updateOne({ appName: updatedApp.appName }, updatedApp);
+        await Apps.updateOne({ _id: app._id }, updatedApp);
     });
 };
 
