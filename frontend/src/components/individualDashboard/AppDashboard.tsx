@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { SimpleGrid, resolveStyles } from "@mantine/core";
+import { Card, SimpleGrid, Stack, resolveStyles } from "@mantine/core";
 import AppPieChart from "./AppPieChart";
 import EndpointsDashboard from "./EndpointDashboards";
 import { useEffect, useState } from "react";
@@ -31,18 +31,39 @@ const AppDashboard = () => {
   return (
     <>
       {appId && (
-        <SimpleGrid cols={2} spacing="lg" verticalSpacing="lg" p={128}>
-          <div className="flex justify-center items-center">
-            <EndpointsDashboard
-              endpoints={endpoints}
-              appId={appId!}
-              OnRefetchData={getData}
-            />
-          </div>
-          <div className="flex justify-center items-center">
-            <AppPieChart endpoints={endpoints} />
-          </div>
-        </SimpleGrid>
+        <>
+          <Stack>
+            <SimpleGrid cols={4} spacing="lg" mt={20}>
+              <Card>
+                <h1> 200 returns:</h1>
+                <p className="text-green-500"> 20</p>
+              </Card>
+              <Card>
+                <h1> 404 returns:</h1>
+                <p className="text-red-500">10 </p>
+
+              </Card>
+              <Card>
+                <h1> 500-511 returns:</h1>
+                <p className="text-red-500"> 5</p>
+
+              </Card>
+
+              <div className="flex justify-center items-center">
+                <AppPieChart endpoints={endpoints} />
+              </div>
+            </SimpleGrid>
+            <SimpleGrid cols={2} spacing="lg" verticalSpacing="lg" >
+              <div className="flex justify-center items-center">
+                <EndpointsDashboard
+                  endpoints={endpoints}
+                  appId={appId!}
+                  OnRefetchData={getData}
+                />
+              </div>
+            </SimpleGrid>
+          </Stack>
+        </>
       )}
     </>
   );

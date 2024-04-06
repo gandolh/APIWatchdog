@@ -14,10 +14,7 @@ import { useState } from "react";
 import { addAppToUser, createApp } from "../ApiCaller";
 import { useAuthContext } from "../auth/AuthContext";
 
-interface newEndpoint {
-  name: string;
-  url: string;
-}
+
 
 interface AddAppFormProps {
   OnClose: () => void;
