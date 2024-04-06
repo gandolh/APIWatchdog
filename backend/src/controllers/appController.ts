@@ -1,7 +1,8 @@
 import apps from "../models/app";
-import iApp from "../types/app";
+import iApp, { iAppDocument } from "../types/app";
 import iEndpoint from "../types/endpoint";
 import iReport from "../types/report";
+import iLog from "../types/log";
 
 export const createApp = async (appData: iApp) => {
   const newApp = new apps(appData);
@@ -33,6 +34,22 @@ export const addReportToApp = async (appId: string, report: iReport) => {
         throw new Error('App not found');
     }
     app.reports.push(report);
+    await app.save();
+    return 200;
+}
+
+export const addLogToEndpoint = async (appId: string, endpointName: string, log: iLog) => {
+    const app: iAppDocument | null = await apps.findById(appId);
+    if (!app) {
+        throw new Error('App not found');
+    }
+    const endpoints: [iEndpoint] | undefined = app.endpoints;
+    const endpointIndex: number | undefined = endpoints?.findIndex((e: iEndpoint) => e.name === endpointName);
+    if (endpointIndex === undefined || endpointIndex === -1) {
+        throw new Error('Endpoint not found');
+    }
+    endpoints?.at(endpointIndex)?.logs?.push(log);
+    (app ?? false) && (app.endpoints = endpoints);
     await app.save();
     return 200;
 }

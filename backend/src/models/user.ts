@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
 		type: [String],
 		default: [],
 	},
+	updateInterval: {
+		type: Number,
+		default: 60,
+	}
 });
 
 const userDb = mongoose.connection.useDb("API-Watchdog");
