@@ -45,7 +45,7 @@ export const handler: Handlers = {
 				sameSite: "Lax", // this is important to prevent CSRF attacks
 				domain: url.hostname,
 				path: "/",
-				secure: true,
+				secure: false, // https "should" be enabled in production
 			});
 
 			headers.set("location", "/");
