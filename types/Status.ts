@@ -1,1 +1,0 @@
-export type Status = "Healthy" | "Unstable" | "Down";
