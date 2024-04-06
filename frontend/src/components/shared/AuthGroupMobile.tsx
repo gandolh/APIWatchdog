@@ -12,9 +12,6 @@ const AuthGroupMobile = ({ authenticatedUser }: AuthGroupMobileProps) => {
 	const {setCurentUser} = useAuthContext();
 
 
-    const HandleRedirectMyInfo = () => {
-        navigate('/myinfo')
-    }
 
     const HandleLogout = () => {
         localStorage.removeItem('authenticatedUser');
@@ -31,7 +28,6 @@ const AuthGroupMobile = ({ authenticatedUser }: AuthGroupMobileProps) => {
             )}
             {(authenticatedUser !== null) && (
                 <Stack>
-                    <Button variant="default" className="w-full" onClick={HandleRedirectMyInfo}>My info</Button>
                     <Button variant="default" className="w-full"> Others 🙂 </Button>
                     <Button variant="default" onClick={HandleLogout}>Log out</Button>
                 </Stack>

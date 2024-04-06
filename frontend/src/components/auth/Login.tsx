@@ -17,11 +17,7 @@ import { GoogleButton } from "./GoogleButton";
 import classes from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./AuthContext";
-import {
-  GoogleLoginCall,
-  LoginCall,
-  RegisterCall,
-} from "../../apiCallers/AuthApiCaller";
+import { LoginCall, RegisterCall } from "../../apiCallers/AuthApiCaller";
 import { useEffect, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios, { AxiosError } from "axios";
@@ -93,20 +89,15 @@ function AuthenticationForm(props: PaperProps) {
             },
           }
         )
-        // .then((res : any) => {
-        // 	GoogleLoginCall(
-        // 		res.data.email,
-        // 		res.data.given_name,
-        // 		res.data.family_name
-        // 	).then((user) => {
-        // 		if (user != null) {
-        // 			AuthConfirmed(user);
-        // 			navigate("/");
-        // 		} else {
-        // 			console.log("Google login failed la salvarea in API.");
-        // 		}
-        // 	});
-        // })
+        .then((res: any) => {
+          const resp = res.data;
+          const currentUser: User = {
+            email: resp.email,
+            username: resp.name,
+          };
+          AuthConfirmed(currentUser);
+          navigate("/");
+        })
         .catch((err: AxiosError) => console.log(err));
     }
   }, [user]);
@@ -124,9 +115,9 @@ function AuthenticationForm(props: PaperProps) {
     } as User;
 
     RegisterCall(user).then((ok) => {
-      console.log(ok);
+      // console.log(ok);
       if (ok != -1) {
-        navigate("/login");
+        HandleLogin();
       }
     });
   };
