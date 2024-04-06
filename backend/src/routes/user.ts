@@ -45,7 +45,7 @@ userRouter.post('/addApp', async (req, res) => {
     try {
         const { email, appId } = req.body;
         const status = await addAppToUser(email, appId);
-        res.sendStatus(status); 
+        res.sendStatus(status);
     } catch(err) {
         err instanceof Error && res.status(500).json({ Error: err.message });
         console.error(err);

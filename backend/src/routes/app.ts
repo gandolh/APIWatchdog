@@ -34,7 +34,9 @@ appRouter.post('/create', async (req, res) => {
         const { appName } = req.body;
         const appData: iApp = { appName, status: 'Stable' };
         const status = await createApp(appData);
-        res.sendStatus(status);
+        if (status.status === 200) {
+            res.status(201).json({ appId: status.appId });
+        }
     } catch(err) {
         err instanceof Error && res.status(500).json({ Error: err.message });
         console.error(err);

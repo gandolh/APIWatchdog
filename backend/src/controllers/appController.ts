@@ -7,7 +7,7 @@ import iLog from "../types/log";
 export const createApp = async (appData: iApp) => {
   const newApp = new apps(appData);
   await newApp.save();
-  return 200;
+  return { status: 200, appId: newApp._id.toString()};
 };
 
 export const getAllApps = async () => {
