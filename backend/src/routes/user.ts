@@ -8,11 +8,8 @@ import {
     updatePassword,
     getUserApps
 } from '../controllers/userController';
-import { getAppById } from '../controllers/appController';
 import iUser from '../types/user';
-import iApp, { iAppDocument } from '../types/app';
-import iReport from '../types/report';
-import iEndpoint from '../types/endpoint';
+
 
 const userRouter = express.Router();
 
