@@ -6,32 +6,32 @@ const PubDashboardComp = () => {
     const data: PublicCardData[] = [
         {
             AppName: "App1",
-            AppStatus: "Running",
+            AppStatus: "Healthy",
             EndpointData: [
                 {
                     EndpointName: "Endpoint1",
-                    EndpointStatus: "Running",
+                    EndpointStatus: "Healthy",
                     EndpointURL: "http://localhost:8080"
                 },
                 {
                     EndpointName: "Endpoint2",
-                    EndpointStatus: "Running",
+                    EndpointStatus: "Healthy",
                     EndpointURL: "http://localhost:8080"
                 }
             ]
         },
         {
             AppName: "App2",
-            AppStatus: "Running",
+            AppStatus: "Healthy",
             EndpointData: [
                 {
                     EndpointName: "Endpoint1",
-                    EndpointStatus: "Running",
+                    EndpointStatus: "Healthy",
                     EndpointURL: "http://localhost:8080"
                 },
                 {
                     EndpointName: "Endpoint2",
-                    EndpointStatus: "Running",
+                    EndpointStatus: "Healthy",
                     EndpointURL: "http://localhost:8080"
                 }
             ]
