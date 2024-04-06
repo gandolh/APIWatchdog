@@ -1,10 +1,16 @@
 import { Status } from "../../types/Status.ts";
 import ColoredStatus from "./ColoredStatus.tsx";
 
+export type Log = {
+    status: Status,
+    timeStamp: Date
+  }
+
 export type EndpointData = {
     EndpointName: string;
     EndpointStatus: Status;
     EndpointURL: string;
+    Logs : Log[]
 }
 
 export type PublicCardData = {
