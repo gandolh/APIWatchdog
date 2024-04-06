@@ -50,9 +50,7 @@ const PowerButton = ({ authenticatedUser }: PowerButtonProps) => {
                 </Popover.Target>
                 <Popover.Dropdown>
                     <Stack gap={0}>
-                        <Link className='w-full ' to="/info">
-                            My info
-                        </Link>
+                  
                         <Divider my={'xs'} />
                         <Link className='w-full ' to="#">
                             Others 🙂
