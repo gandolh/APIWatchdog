@@ -10,6 +10,7 @@ import * as $devboard from "./routes/devboard.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $AppStateProvider from "./islands/AppStateProvider.tsx";
+import * as $ColoredStatus from "./islands/ColoredStatus.tsx";
 import * as $LoginComp from "./islands/LoginComp.tsx";
 import * as $NavBar from "./islands/NavBar.tsx";
 import * as $PubDashCard from "./islands/PubDashCard.tsx";
@@ -29,6 +30,7 @@ const manifest = {
   },
   islands: {
     "./islands/AppStateProvider.tsx": $AppStateProvider,
+    "./islands/ColoredStatus.tsx": $ColoredStatus,
     "./islands/LoginComp.tsx": $LoginComp,
     "./islands/NavBar.tsx": $NavBar,
     "./islands/PubDashCard.tsx": $PubDashCard,
