@@ -4,15 +4,25 @@ import { getUserByEmail, loginUser } from '../controllers/userController';
 const userRouter = express.Router();
 
 userRouter.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    const status = await loginUser(email, password);
-    res.sendStatus(status);
+    try {
+        const { email, password } = req.body;
+        const status = await loginUser(email, password);
+        res.sendStatus(status); 
+    } catch(err) {
+        err instanceof Error && res.status(500).json({ Error: err.message });
+        console.error(err);
+    }
 });
 
 userRouter.post('/getByEmail', async (req, res) => {
-    const { email } = req.body;
-    const user = await getUserByEmail(email);
-    res.send(user);
+    try {
+        console.log("Data:", req.body);
+        const user = await getUserByEmail(req.body.email);
+        res.send(user);
+    } catch(err) {
+        err instanceof Error && res.status(500).json({ Error: err.message });
+        console.error(err);
+    }
 });
 
 export default userRouter;
