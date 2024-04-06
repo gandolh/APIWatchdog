@@ -5,6 +5,7 @@ import iReport from '../types/report';
 import iLog from '../types/log';
 import mongoose from 'mongoose';
 import { createApp, addEndpointToApp, addReportToApp, getAllApps, getAppById, addLogToEndpoint } from '../controllers/appController';
+import { Status } from '../types/status';
 
 const appRouter = express.Router();
 
@@ -32,7 +33,7 @@ appRouter.post('/getAppById', async (req, res) => {
 appRouter.post('/create', async (req, res) => {
     try {
         const { appName } = req.body;
-        const appData: iApp = { appName, status: 'Stable' };
+        const appData: iApp = { appName, status: Status.STABLE };
         const status = await createApp(appData);
         if (status.status === 200) {
             res.status(201).json({ appId: status.appId });
@@ -47,7 +48,7 @@ appRouter.post('/addEndpointToApp', async (req, res) => {
     try {
         const { appId, endpointName } = req.body;
         const newLog: iLog = { response: 201, time: new Date() };
-        const endpointData: iEndpoint = { name: endpointName, status: 'Stable', logs: [newLog] };
+        const endpointData: iEndpoint = { name: endpointName, status: Status.STABLE, logs: [newLog] };
         const status = await addEndpointToApp(appId, endpointData);
         res.sendStatus(status);
     } catch(err) {

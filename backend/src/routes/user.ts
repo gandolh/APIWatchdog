@@ -6,13 +6,11 @@ import {
     addAppToUser, 
     removeAppFromUser, 
     updatePassword,
-    getUserApps
+    getUserApps,
+    updateInterval
 } from '../controllers/userController';
-import { getAppById } from '../controllers/appController';
 import iUser from '../types/user';
-import iApp, { iAppDocument } from '../types/app';
-import iReport from '../types/report';
-import iEndpoint from '../types/endpoint';
+
 
 const userRouter = express.Router();
 
@@ -95,6 +93,18 @@ userRouter.post('/getApps', async (req, res) => {
         } else {
             res.status(200).json(resp.apps);
         }
+    } catch(err) {
+            err instanceof Error && res.status(500).json({ Error: err.message });
+            console.error(err);
+        }
+    });
+
+
+userRouter.post('/updateInterval', async (req, res) => {
+    try {
+        const { email, interval } = req.body;
+        const status = await updateInterval(email, interval);
+        res.sendStatus(status);
     } catch(err) {
         err instanceof Error && res.status(500).json({ Error: err.message });
         console.error(err);
