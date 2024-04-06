@@ -1,6 +1,18 @@
 import express from 'express';
-import { getUserByEmail, loginUser, createUser, addAppToUser, removeAppFromUser, updatePassword } from '../controllers/userController';
+import { 
+    getUserByEmail, 
+    loginUser, 
+    createUser, 
+    addAppToUser, 
+    removeAppFromUser, 
+    updatePassword,
+    getUserApps
+} from '../controllers/userController';
+import { getAppById } from '../controllers/appController';
 import iUser from '../types/user';
+import iApp, { iAppDocument } from '../types/app';
+import iReport from '../types/report';
+import iEndpoint from '../types/endpoint';
 
 const userRouter = express.Router();
 
@@ -68,6 +80,21 @@ userRouter.post('/updatePassword', async (req, res) => {
         const { email, newPassword, oldPassword } = req.body;
         const status = await updatePassword(email, newPassword, oldPassword);
         res.sendStatus(status);
+    } catch(err) {
+        err instanceof Error && res.status(500).json({ Error: err.message });
+        console.error(err);
+    }
+});
+
+userRouter.post('/getApps', async (req, res) => {
+    try {
+        const { email } = req.body;
+        const resp = await getUserApps(email);
+        if (resp.status === 404) {
+            res.sendStatus(404);
+        } else {
+            res.status(200).json(resp.apps);
+        }
     } catch(err) {
         err instanceof Error && res.status(500).json({ Error: err.message });
         console.error(err);
