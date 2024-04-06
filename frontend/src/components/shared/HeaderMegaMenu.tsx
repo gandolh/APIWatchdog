@@ -19,7 +19,6 @@ import AuthGroupMobile from './AuthGroupMobile';
 import { getLocalStorageUser } from '../../apiCallers/AuthApiCaller';
 import { useAuthContext } from '../auth/AuthContext';
 import { useEffect } from 'react';
-import { MantineLogo } from '@mantinex/mantine-logo';
 // import classes from '../css/HeaderMegaMenu.module.css';
 type HeaderMegaMenuProps = {
   NavLinks: Array<NavLink>;

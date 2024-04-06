@@ -11,7 +11,8 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { useState } from "react";
-import { createApp } from "../ApiCaller";
+import { addAppToUser, createApp } from "../ApiCaller";
+import { useAuthContext } from "../auth/AuthContext";
 
 interface newEndpoint {
   name: string;
@@ -24,6 +25,7 @@ interface AddAppFormProps {
 
 const AddAppForm = ({ OnClose }: AddAppFormProps) => {
   const [appName, setAppName] = useState<string>("");
+	const {curentUser} = useAuthContext();
   //   const [endpoints, setEndpoints] = useState<newEndpoint[]>([]);
 
   //   const createNewEndpoint = () => {
@@ -38,7 +40,12 @@ const AddAppForm = ({ OnClose }: AddAppFormProps) => {
 
   const HandleAddApp = () => {
     createApp(appName).then((el) => {
-      if (el === 0) OnClose();
+      if (el !== -1) {
+        if(curentUser !=null)
+          addAppToUser(el, curentUser.email);
+        else console.log("curent user email is null");
+        OnClose();
+      }
     });
   };
 
