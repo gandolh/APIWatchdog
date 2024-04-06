@@ -8,7 +8,7 @@ interface ColoredStatusProps {
 
 function getTextColor(status : Status){
     switch (status) {
-        case "Healthy":
+        case "Stable":
             return " text-green-500 "
         case "Unstable":
             return " text-yellow-500 "
@@ -21,7 +21,7 @@ function getTextColor(status : Status){
 
 function getBgColor(status : Status){
     switch (status) {
-        case "Healthy":
+        case "Stable":
             return " bg-green-500 "
         case "Unstable":
             return " bg-yellow-500 "

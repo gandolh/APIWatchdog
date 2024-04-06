@@ -14,6 +14,7 @@ export type EndpointData = {
 }
 
 export type PublicCardData = {
+    _id : string;
     AppName: string;
     AppStatus: Status;
     EndpointData: EndpointData[];
