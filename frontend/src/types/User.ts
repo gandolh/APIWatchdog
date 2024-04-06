@@ -1,4 +1,5 @@
 type User = {
     email: string,
-    username: string
+    username: string,
+    apps: string[]
 }

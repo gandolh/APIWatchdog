@@ -1,58 +1,29 @@
 import { Container } from "@mantine/core";
-import { Status } from "../../types/Status.ts";
-import { Log, PublicCardData } from "../publicDashboard/PubDashCard";
 import PubDashboardComp from "../publicDashboard/PubDashboardComp";
+import { useAuthContext } from "../auth/AuthContext";
+import { useEffect, useState } from "react";
+import iApp from "../../types/IApp";
+import { GetUserApps } from "../ApiCaller";
 
 
-const statuses: Status[] = ["Stable", "Unstable", "Down"];
-const logs: Log[] = Array.from({ length: 10 }, (_, i) => ({
-  status: statuses[Math.floor(Math.random() * statuses.length)],
-  timeStamp: new Date(Date.now() - i * 5000),
-}));
-
-const data: PublicCardData[] = [
-  {
-    _id: '1',
-    AppName: "App_dev1",
-    AppStatus: "Down",
-    EndpointData: [
-      {
-        EndpointName: "Endpoint1",
-        EndpointStatus: "Stable",
-        EndpointURL: "http://localhost:8080",
-        Logs: logs,
-      },
-      {
-        EndpointName: "Endpoint2",
-        EndpointStatus: "Stable",
-        EndpointURL: "http://localhost:8080",
-        Logs: logs,
-      },
-    ],
-  },
-  {
-    _id: '2',
-    AppName: "Appdev_2",
-    AppStatus: "Unstable",
-    EndpointData: [
-      {
-        EndpointName: "Endpoint1",
-        EndpointStatus: "Stable",
-        EndpointURL: "http://localhost:8080",
-        Logs: logs,
-      },
-      {
-        EndpointName: "Endpoint2",
-        EndpointStatus: "Stable",
-        EndpointURL: "http://localhost:8080",
-        Logs: logs,
-      },
-    ],
-  },
-];
 
 
 const DevDashboard = () => {
+  const { curentUser } = useAuthContext();
+  const [data, setData] = useState<iApp[]>([]);
+
+  function GetData() {
+    if(curentUser === null)return;
+    GetUserApps(curentUser.email).then((el) => {
+      if (el === -1) return;
+      setData(el);
+    });
+  }
+
+  useEffect(() => {
+    GetData();
+  }, [curentUser]);
+
   return (
     <Container
       fluid
@@ -61,7 +32,7 @@ const DevDashboard = () => {
       style={{ height: "calc(100dvh - 60px - var(--app-shell-padding))" }}
     >
       <div className="w-full mx-auto h-[80dvh]">
-        <PubDashboardComp data={data} />
+        <PubDashboardComp data={data} OnRefetchData={GetData} />
       </div>
     </Container>
   );

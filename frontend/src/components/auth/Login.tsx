@@ -35,7 +35,7 @@ function AuthenticationForm(props: PaperProps) {
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
       password: (val) =>
-        val.length <= 4
+        val.length < 4
           ? "Password should include at least 4 characters"
           : null,
     },
@@ -53,7 +53,7 @@ function AuthenticationForm(props: PaperProps) {
   const HandleLogin = () => {
     const output = form.validate();
     if (output.hasErrors == true) return;
-    LoginCall(form.values.email, form.values.password, AuthConfirmed).then(
+    LoginCall(form.values.email, form.values.password, AuthConfirmed, setCurentUser).then(
       (ok) => {
         console.log(ok);
         if (ok != -1) {

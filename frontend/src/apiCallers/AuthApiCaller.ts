@@ -1,5 +1,5 @@
 import axios from 'axios';
-// const { setCurentUser } = useAuthContext();
+import { useAuthContext } from '../components/auth/AuthContext';
 
 const getLocalStorageUser = () : User | null => {
     const user = window.localStorage.getItem("authenticatedUser");
@@ -9,7 +9,9 @@ const getLocalStorageUser = () : User | null => {
     return null;
 }
 
-const LoginCall = async  (email : string, password : string, handleUserLoggedIn : (user : User)=> void) : Promise<Number>  => { 
+const LoginCall = async  (email : string, password : string, handleUserLoggedIn : (user : User)=> void, setCurentUser : any) : Promise<Number>  => { 
+    
+
     // do post call with axios. in body send email and password. The url is http://localhost:3000/auth/login
     try {
         const resp = await axios.post('http://localhost:3000/api/user/login', { email, password },
@@ -17,7 +19,7 @@ const LoginCall = async  (email : string, password : string, handleUserLoggedIn 
             'Content-Type': 'application/x-www-form-urlencoded'
         }}
         );
-        // setCurentUser(resp.data);
+         setCurentUser(resp.data);
         handleUserLoggedIn(resp.data as User);
         window.localStorage.setItem("authenticatedUser", JSON.stringify(resp.data));
         
