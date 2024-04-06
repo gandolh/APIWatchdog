@@ -1,5 +1,5 @@
 export enum Status {
-    STABLE = "Stable",
-    UNSTABLE = "Unstable",
-    DOWN = "Down"
+    STABLE = "STABLE",
+    UNSTABLE = "UNSTABLE",
+    DOWN = "DOWN"
 };

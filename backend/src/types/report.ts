@@ -1,9 +1,7 @@
-import { Status } from "./status";
-
 export default interface iReport {
     _id: String;
     endpoint: String;
-    state: Status;
+    state: String;
     message: String;
     fixed: Boolean;
 };
