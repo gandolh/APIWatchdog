@@ -5,10 +5,11 @@ import {
 } from "react-router-dom";
 import MainLayout from './components/shared/MainLayout';
 import ErrorPage from './components/shared/ErrorPage';
-import Home from './components/home/Home';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import { AuthProvider } from './components/auth/AuthContext';
+import PublicDashboard from './components/publicDashboard/PublicDashboard';
+import DevDashboard from './components/DevDashboard/DevDashboard';
 
 const router = createBrowserRouter([
   {
@@ -18,8 +19,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Home />
-      }
+        element: <PublicDashboard />
+      },
+      {
+        path: "/devdash",
+        element: <DevDashboard />
+      },
     ]
   },
   {
