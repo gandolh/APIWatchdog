@@ -8,10 +8,10 @@ const dataPieChart = [
 ];
 
 interface AppPieChartProps {
-  data : EndpointData[]
+  endpoints : EndpointData[]
 }
 
-const AppPieChart = ({data} : AppPieChartProps) => {
+const AppPieChart = ({endpoints} : AppPieChartProps) => {
 
   return (
     <>
