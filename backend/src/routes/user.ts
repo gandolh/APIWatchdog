@@ -17,7 +17,6 @@ userRouter.post('/login', async (req, res) => {
 
 userRouter.post('/getByEmail', async (req, res) => {
     try {
-        console.log("Data:", req.body);
         const user = await getUserByEmail(req.body.email);
         res.send(user);
     } catch(err) {
