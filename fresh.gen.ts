@@ -9,6 +9,7 @@ import * as $api_logout from "./routes/api/logout.ts";
 import * as $devboard from "./routes/devboard.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
+import * as $pubdash_dashboardId_ from "./routes/pubdash/[dashboardId].tsx";
 import * as $AppStateProvider from "./islands/AppStateProvider.tsx";
 import * as $ColoredStatus from "./islands/ColoredStatus.tsx";
 import * as $LoginComp from "./islands/LoginComp.tsx";
@@ -27,6 +28,7 @@ const manifest = {
     "./routes/devboard.tsx": $devboard,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
+    "./routes/pubdash/[dashboardId].tsx": $pubdash_dashboardId_,
   },
   islands: {
     "./islands/AppStateProvider.tsx": $AppStateProvider,
