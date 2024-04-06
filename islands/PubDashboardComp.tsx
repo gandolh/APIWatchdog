@@ -22,11 +22,11 @@ const PubDashboardComp = () => {
         },
         {
             AppName: "App2",
-            AppStatus: "Healthy",
+            AppStatus: "Unstable",
             EndpointData: [
                 {
                     EndpointName: "Endpoint1",
-                    EndpointStatus: "Healthy",
+                    EndpointStatus: "Down",
                     EndpointURL: "http://localhost:8080"
                 },
                 {

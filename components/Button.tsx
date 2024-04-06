@@ -1,4 +1,4 @@
-import { ComponentChildren } from "https://esm.sh/v128/preact@10.19.6/src/index.js";
+import { ComponentChildren } from "preact";
 
 interface ButtonProps {
     children: ComponentChildren;
