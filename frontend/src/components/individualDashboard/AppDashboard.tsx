@@ -1,12 +1,17 @@
 import { useParams } from "react-router-dom";
-import { PublicCardData } from "../publicDashboard/PubDashCard";
+import { Log, PublicCardData } from "../publicDashboard/PubDashCard";
 import { SimpleGrid } from "@mantine/core";
 import AppPieChart from "./AppPieChart";
 import EndpointsDashboard from "./EndpointDashboards";
-
-
+import { Status } from "../../types/Status";
 
 const AppDashboard = () => {
+  const statuses: Status[] = ["Healthy", "Unstable", "Down"];
+  const logs: Log[] = Array.from({ length: 10 }, (_, i) => ({
+    status: statuses[Math.floor(Math.random() * statuses.length)],
+    timeStamp: new Date(Date.now() - i * 5000),
+  }));
+
   const data: PublicCardData = {
     AppName: "App1",
     AppStatus: "Healthy",
@@ -15,11 +20,13 @@ const AppDashboard = () => {
         EndpointName: "Endpoint1",
         EndpointStatus: "Healthy",
         EndpointURL: "http://localhost:8080",
+        Logs: logs,
       },
       {
         EndpointName: "Endpoint2",
         EndpointStatus: "Healthy",
         EndpointURL: "http://localhost:8080",
+        Logs: logs,
       },
     ],
   };
@@ -29,10 +36,10 @@ const AppDashboard = () => {
     <>
       <SimpleGrid cols={2} spacing="lg" verticalSpacing="lg" p={128}>
         <div className="flex justify-center items-center">
-        <EndpointsDashboard endpoints={data.EndpointData}/>
+          <EndpointsDashboard endpoints={data.EndpointData} />
         </div>
         <div className="flex justify-center items-center">
-        <AppPieChart/>
+          <AppPieChart />
         </div>
       </SimpleGrid>
     </>

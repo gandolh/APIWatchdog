@@ -27,7 +27,6 @@ const AuthGroupMobile = ({ authenticatedUser }: AuthGroupMobileProps) => {
             {(authenticatedUser === null) && (
                 <Group justify="center" grow pb="xl" px="md">
                     <Button variant="default">Log in</Button>
-                    <Button>Sign up</Button>
                 </Group>
             )}
             {(authenticatedUser !== null) && (
