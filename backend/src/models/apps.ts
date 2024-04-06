@@ -5,6 +5,10 @@ const appSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    status: {
+        type: String,
+        default: "Stable"
+    },
     endpoints: {
         type: [Object],
         default: [],
