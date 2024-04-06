@@ -1,6 +1,9 @@
+import iEndpoint from "./endpoint";
+import iReport from "./report";
+
 export default interface iApp {
-    appName: string;
-    status?: string;
-    endpoints?: [Object];
-    reports?: [Object];
-}
+    appName: String;
+    status?: String;
+    endpoints?: [iEndpoint];
+    reports?: [iReport];
+};

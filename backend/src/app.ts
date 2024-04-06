@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import db from './config/dbConnection';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import appRouter from './routes/app';
 
 dotenv.config();
 
@@ -23,6 +24,8 @@ db.once('open', () => {
 });
 
 app.use('/api/user', userRouter);
+
+app.use('/api/app', appRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello World');

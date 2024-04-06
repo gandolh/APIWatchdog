@@ -38,14 +38,19 @@ const updateAppEndpoints = async (app: iApp) => {
 };
 
 const updateEndpoint = async (endpoint: iEndpoint) => {
-    // const response = await fetch(endpoint.url);
+    const response = await fetch(endpoint.url);
 
-    // endpoint.logs.push({
-    //     time: new Date(),
-    //     response: response.status,
-    // } as iLog);
+    endpoint.logs.push({
+        time: new Date(),
+        response: response.status,
+    } as iLog);
 
-    const logs = endpoint.logs.slice(-10);
+    let logs = endpoint.logs;
+    logs.sort((a, b) => {
+        return a.time.getTime() - b.time.getTime();
+    });
+    logs = logs.slice(-10);
+
     let countUnstable = 0;
     logs.forEach((log) => {
         if (log.response !== 200 && log.response !== 302) {

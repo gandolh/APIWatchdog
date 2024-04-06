@@ -1,17 +1,42 @@
-import { PieChart } from "@mantine/charts";
+import { PieChart, PieChartCell } from "@mantine/charts";
 import { EndpointData } from "../publicDashboard/PubDashCard";
-const dataPieChart = [
-  { name: "USA", value: 400, color: "indigo.6" },
-  { name: "India", value: 300, color: "yellow.6" },
-  { name: "Japan", value: 300, color: "teal.6" },
-  { name: "Other", value: 200, color: "gray.6" },
-];
+import { useEffect, useState } from "react";
+
 
 interface AppPieChartProps {
   endpoints : EndpointData[]
 }
 
+const test = (endpoints: EndpointData[]) => {
+  let stableEndpoints = 0;
+  let unstableEndpoints = 0;
+  let downEndpoints = 0;
+
+  endpoints.map((endpoint) => {
+    if (endpoint.EndpointStatus === "Stable") {
+      stableEndpoints++;
+    } else if (endpoint.EndpointStatus === "Unstable") {
+      unstableEndpoints++;
+    } else {
+      downEndpoints++;
+    }
+  });
+
+  const dataPieChart: PieChartCell[] = [
+    { name: "Stable", value: stableEndpoints, color: "green.6" },
+    { name: "Unstable", value: unstableEndpoints, color: "yellow.6" },
+    { name: "Down", value: downEndpoints, color: "red.6" },
+  ];
+
+  return dataPieChart;
+}
+
 const AppPieChart = ({endpoints} : AppPieChartProps) => {
+  const [dataPieChart, setDataPieChart] = useState<PieChartCell[]>([]);
+
+  useEffect(() => {
+    setDataPieChart(test(endpoints));
+  }, [endpoints]);
 
   return (
     <>

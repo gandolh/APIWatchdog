@@ -13,6 +13,7 @@ const AppDashboard = () => {
   }));
 
   const data: PublicCardData = {
+    _id: "1",
     AppName: "App1",
     AppStatus: "Stable",
     EndpointData: [
@@ -24,7 +25,13 @@ const AppDashboard = () => {
       },
       {
         EndpointName: "Endpoint2",
-        EndpointStatus: "Stable",
+        EndpointStatus: "Unstable",
+        EndpointURL: "http://localhost:8080",
+        Logs: logs,
+      },
+      {
+        EndpointName: "Endpoint3",
+        EndpointStatus: "Unstable",
         EndpointURL: "http://localhost:8080",
         Logs: logs,
       },
