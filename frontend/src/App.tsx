@@ -10,6 +10,7 @@ import Register from './components/auth/Register';
 import { AuthProvider } from './components/auth/AuthContext';
 import PublicDashboard from './components/publicDashboard/PublicDashboard';
 import DevDashboard from './components/DevDashboard/DevDashboard';
+import AppDashboard from './components/individualDashboard/AppDashboard';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <PublicDashboard />
+      },
+      {
+        path: "pubdash/:appId",
+        element: <AppDashboard/>
       },
       {
         path: "/devdash",

@@ -47,7 +47,7 @@ export function HeaderMegaMenu({ NavLinks, handleChangeActive }: HeaderMegaMenuP
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Group gap={8}>
-            <Image w={30} h={30} src="dogWatcher.logo.png" alt="Dog logo" />
+            <Image w={30} h={30} src="/dogWatcher.logo.png" alt="Dog logo" />
             <Text
               size="xl"
               fw={900}
