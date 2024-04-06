@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUserByEmail, loginUser, createUser } from '../controllers/userController';
+import { getUserByEmail, loginUser, createUser, addAppToUser, removeAppFromUser, updatePassword } from '../controllers/userController';
 import iUser from '../types/user';
 
 const userRouter = express.Router();
@@ -7,8 +7,12 @@ const userRouter = express.Router();
 userRouter.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        const status = await loginUser(email, password);
-        res.sendStatus(status); 
+        const status: number = await loginUser(email, password);
+        if (status === 200) {
+            res.send(await getUserByEmail(email));
+        } else {
+            res.sendStatus(status);
+        }
     } catch(err) {
         err instanceof Error && res.status(500).json({ Error: err.message });
         console.error(err);
@@ -30,6 +34,17 @@ userRouter.post('/register', async (req, res) => {
         const { username, email, password } = req.body;
         const userData: iUser = { username, email, password };
         const status = await createUser(userData);
+        res.sendStatus(status); 
+    } catch(err) {
+        err instanceof Error && res.status(500).json({ Error: err.message });
+        console.error(err);
+    }
+});
+
+userRouter.post('/addApp', async (req, res) => {
+    try {
+        const { email, appName } = req.body;
+        const status = await addAppToUser(email, appName);
         res.sendStatus(status); 
     } catch(err) {
         err instanceof Error && res.status(500).json({ Error: err.message });
