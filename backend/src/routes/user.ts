@@ -43,8 +43,8 @@ userRouter.post('/register', async (req, res) => {
 
 userRouter.post('/addApp', async (req, res) => {
     try {
-        const { email, appName } = req.body;
-        const status = await addAppToUser(email, appName);
+        const { email, appId } = req.body;
+        const status = await addAppToUser(email, appId);
         res.sendStatus(status); 
     } catch(err) {
         err instanceof Error && res.status(500).json({ Error: err.message });

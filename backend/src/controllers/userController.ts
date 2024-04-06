@@ -25,12 +25,12 @@ export const createUser = async (userData: iUser) => {
   return 200;
 };
 
-export const addAppToUser = async (email: string, appName: string) => {
+export const addAppToUser = async (email: string, appId: string) => {
   const user = await getUserByEmail(email);
 
   if (!user) return 404;
 
-  user.apps.push(appName);
+  user.apps.push(appId);
   await user.save();
   return 200;
 }
