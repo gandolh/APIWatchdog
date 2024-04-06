@@ -1,27 +1,11 @@
-import { Status } from "../../types/Status.ts";
+import iApp from "../../types/IApp.ts";
 import ColoredStatus from "./ColoredStatus.tsx";
 
-export type Log = {
-    status: Status,
-    timeStamp: Date
-  }
 
-export type EndpointData = {
-    EndpointName: string;
-    EndpointStatus: Status;
-    EndpointURL: string;
-    Logs : Log[]
-}
 
-export type PublicCardData = {
-    _id : string;
-    AppName: string;
-    AppStatus: Status;
-    EndpointData: EndpointData[];
-}
 
 interface CardProps {
-    app: PublicCardData,
+    app: iApp,
     OnClick? : ()=> void
 }
 
@@ -29,18 +13,18 @@ const Card = ({ app, OnClick }: CardProps) => {
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg py-4 bg-white" onClick={OnClick}>
             <div className="px-6">
-                <div className="font-bold text-xl mb-2">{app.AppName}</div>
+                <div className="font-bold text-xl mb-2">{app.appName}</div>
             </div>
             <hr className="my-2 h-0.5 border-t-0 bg-neutral-200 " />
             <div className="px-6">
-                <div className="font-bold text-xl mb-2"> <ColoredStatus status={app.AppStatus}/></div>
+                <div className="font-bold text-xl mb-2"> <ColoredStatus status={app.status}/></div>
             </div>
             <div className="px-6">
                 <ul>
-                    {app.EndpointData.map(endpoint => {
+                    {app.endpoints?.map(endpoint => {
                         return (
                             <li className="flex items-center">
-                                {endpoint.EndpointName} -&nbsp; <ColoredStatus status={endpoint.EndpointStatus}/>
+                                {endpoint.name} -&nbsp; <ColoredStatus status={endpoint.status}/>
                             </li>
                         )
                     }
