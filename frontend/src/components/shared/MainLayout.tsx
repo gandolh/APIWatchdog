@@ -6,7 +6,7 @@ import { AppShell, useMantineColorScheme} from '@mantine/core';
 export default function MainLayout() {
   const [NavLinks, setNavLinks] = React.useState<Array<NavLink>>([
     { id: 1, name: "All apps", anchor: "", active: true },
-    { id: 2, name: "Your apps", anchor: "devdash", active: false },
+    { id: 2, name: "My apps", anchor: "devdash", active: false },
   ]);
 
   const changeActive = (id: number) => {

@@ -1,26 +1,28 @@
 import { PieChart, PieChartCell } from "@mantine/charts";
-import { EndpointData } from "../publicDashboard/PubDashCard";
 import { useEffect, useState } from "react";
-
+import iEndpoint from "../../types/IEndpoint";
+import { MyLog, getStatus } from "./EndpointDashboards";
 
 interface AppPieChartProps {
-  endpoints : EndpointData[]
+  endpoints: iEndpoint[];
 }
 
-const test = (endpoints: EndpointData[]) => {
-  let stableEndpoints = 0;
-  let unstableEndpoints = 0;
-  let downEndpoints = 0;
+const getStats = (endpoints: iEndpoint[]) => {
+  const logs: MyLog[] = endpoints
+    .map((endpoint) => {
+      if (endpoint.logs === undefined) return [];
+      return endpoint.logs.map((el) => {
+        return {
+          time: el.time,
+          status: getStatus(el.response),
+        } as MyLog;
+      });
+    })
+    .flat();
 
-  endpoints.map((endpoint) => {
-    if (endpoint.EndpointStatus === "Stable") {
-      stableEndpoints++;
-    } else if (endpoint.EndpointStatus === "Unstable") {
-      unstableEndpoints++;
-    } else {
-      downEndpoints++;
-    }
-  });
+  const stableEndpoints = logs.filter((x) => x.status === "Stable").length;
+  const unstableEndpoints = logs.filter((x) => x.status === "Unstable").length;
+  const downEndpoints = logs.filter((x) => x.status === "Down").length;
 
   const dataPieChart: PieChartCell[] = [
     { name: "Stable", value: stableEndpoints, color: "green.6" },
@@ -29,13 +31,13 @@ const test = (endpoints: EndpointData[]) => {
   ];
 
   return dataPieChart;
-}
+};
 
-const AppPieChart = ({endpoints} : AppPieChartProps) => {
+const AppPieChart = ({ endpoints }: AppPieChartProps) => {
   const [dataPieChart, setDataPieChart] = useState<PieChartCell[]>([]);
 
   useEffect(() => {
-    setDataPieChart(test(endpoints));
+    setDataPieChart(getStats(endpoints));
   }, [endpoints]);
 
   return (
