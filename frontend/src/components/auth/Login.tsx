@@ -14,7 +14,17 @@ import {
   Stack,
 } from "@mantine/core";
 import { GoogleButton } from "./GoogleButton";
-import classes from './Login.module.css';
+import classes from "./Login.module.css";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "./AuthContext";
+import {
+  GoogleLoginCall,
+  LoginCall,
+  RegisterCall,
+} from "../../apiCallers/AuthApiCaller";
+import { useEffect, useState } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios, { AxiosError } from "axios";
 
 function AuthenticationForm(props: PaperProps) {
   const [type, toggle] = useToggle(["login", "register"]);
@@ -29,11 +39,102 @@ function AuthenticationForm(props: PaperProps) {
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
       password: (val) =>
-        val.length <= 6
-          ? "Password should include at least 6 characters"
+        val.length <= 4
+          ? "Password should include at least 4 characters"
           : null,
     },
   });
+
+  const navigate = useNavigate();
+  const { setCurentUser } = useAuthContext();
+
+  const AuthConfirmed = (user: User) => {
+    window.localStorage.setItem("authenticatedUser", JSON.stringify(user));
+    setCurentUser(user);
+  };
+
+  // user pass
+  const HandleLogin = () => {
+    const output = form.validate();
+    if (output.hasErrors == true) return;
+    LoginCall(form.values.email, form.values.password, AuthConfirmed).then(
+      (ok) => {
+        console.log(ok);
+        if (ok != -1) {
+          navigate("/");
+        }
+      }
+    );
+  };
+
+  // Google login
+  const [user, setUser] = useState<any>([]);
+  const HandleGoogleLogin = () => {
+    login();
+  };
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      setUser(codeResponse);
+      console.log(codeResponse);
+    },
+    onError: (error) => console.log("Login Failed:", error),
+  });
+
+  useEffect(() => {
+    if (user) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        )
+        // .then((res : any) => {
+        // 	GoogleLoginCall(
+        // 		res.data.email,
+        // 		res.data.given_name,
+        // 		res.data.family_name
+        // 	).then((user) => {
+        // 		if (user != null) {
+        // 			AuthConfirmed(user);
+        // 			navigate("/");
+        // 		} else {
+        // 			console.log("Google login failed la salvarea in API.");
+        // 		}
+        // 	});
+        // })
+        .catch((err: AxiosError) => console.log(err));
+    }
+  }, [user]);
+
+  // register
+  const HandleRegister = () => {
+    const output = form.validate();
+    if (output.hasErrors == true) return;
+    // do call
+
+    const user = {
+      email: form.values.email,
+      password: form.values.password,
+      username: form.values.username,
+    } as User;
+
+    RegisterCall(user).then((ok) => {
+      console.log(ok);
+      if (ok != -1) {
+        navigate("/login");
+      }
+    });
+  };
+
+  const HandleSubmit = () => {
+    if (type === "register") HandleRegister();
+    else HandleLogin();
+  };
 
   return (
     <Paper radius="md" p="xl" withBorder {...props}>
@@ -42,12 +143,14 @@ function AuthenticationForm(props: PaperProps) {
       </Text>
 
       <Group grow mb="md" mt="md">
-        <GoogleButton radius="xl">Google</GoogleButton>
+        <GoogleButton radius="xl" onClick={HandleGoogleLogin}>
+          Google
+        </GoogleButton>
       </Group>
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form onSubmit={form.onSubmit(HandleSubmit)}>
         <Stack>
           {type === "register" && (
             <TextInput
@@ -83,7 +186,7 @@ function AuthenticationForm(props: PaperProps) {
             }
             error={
               form.errors.password &&
-              "Password should include at least 6 characters"
+              "Password should include at least 4 characters"
             }
             radius="md"
           />
@@ -109,7 +212,7 @@ function AuthenticationForm(props: PaperProps) {
           >
             {type === "register"
               ? "Already have an account? Login"
-              : "Don't have an account? Register"}	
+              : "Don't have an account? Register"}
           </Anchor>
           <Button type="submit" radius="xl">
             {upperFirst(type)}

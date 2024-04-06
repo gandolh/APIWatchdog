@@ -6,7 +6,6 @@ import {
 import MainLayout from './components/shared/MainLayout';
 import ErrorPage from './components/shared/ErrorPage';
 import Login from './components/auth/Login';
-import Register from './components/auth/Register';
 import { AuthProvider } from './components/auth/AuthContext';
 import PublicDashboard from './components/publicDashboard/PublicDashboard';
 import DevDashboard from './components/DevDashboard/DevDashboard';
@@ -35,11 +34,6 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
     errorElement: <ErrorPage />,
   }
 ]);
