@@ -58,3 +58,11 @@ export const updatePassword = async (email: string, newPassword: string, oldPass
     return 401;
   }
 }
+
+export const getUserApps = async (email: string) => {
+  const user = await getUserByEmail(email);
+
+  if (!user) return { status: 404, apps: []};
+
+  return { status: 200, apps: user.apps};
+}
