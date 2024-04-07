@@ -4,4 +4,5 @@ type NavLink = {
     name: string;
     anchor: string;
     active: boolean;
+    needsAuth: boolean;
 }   

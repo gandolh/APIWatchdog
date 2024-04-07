@@ -60,7 +60,7 @@ export function HeaderMegaMenu({ NavLinks, handleChangeActive }: HeaderMegaMenuP
 
           <Group h="100%" gap={0} visibleFrom="sm">
             {NavLinks.map((link) => (
-              <Link to={link.anchor} className={classes.link} key={link.id}
+              (curentUser !== null || link.needsAuth === false) &&  <Link to={link.anchor} className={classes.link} key={link.id}
                 onClick={() => handleChangeActive(link.id)}
                 data-active={link.active ? link.active : undefined}
               >
