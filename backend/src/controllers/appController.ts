@@ -73,5 +73,5 @@ export const getAppWithLatestLogs = async (id: string, hours: number) => {
         newEndpoints.push({ ...e, logs });
     });
 
-    return { ...app, endpoints: newEndpoints };
+    return { ...app.toObject(), endpoints: newEndpoints };
 }

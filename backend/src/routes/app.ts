@@ -84,8 +84,8 @@ appRouter.post('/addLogToEndpoint', async (req, res) => {
 
 appRouter.post('/getAppWithLatestLogs', async (req, res) => {
     try {
-        const { id, hours } = req.body;
-        const app = await getAppWithLatestLogs(id, hours);
+        const { appId, hours } = req.body;
+        const app = await getAppWithLatestLogs(appId, hours);
         res.json(app);
     } catch(err) {
         err instanceof Error && res.status(500).json({ Error: err.message });
