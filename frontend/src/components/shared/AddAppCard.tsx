@@ -89,6 +89,7 @@ interface AddAppCard {
 }
 
 const AddAppCard = ({ OnRefetchData }: AddAppCard) => {
+  const {curentUser} = useAuthContext();
   const [opened, { open, close }] = useDisclosure(false);
   function handleClose() {
     close();
@@ -99,12 +100,12 @@ const AddAppCard = ({ OnRefetchData }: AddAppCard) => {
       <Modal opened={opened} onClose={close} title="Add app" centered>
         <AddAppForm OnClose={handleClose} />
       </Modal>
-      <Card
+     {curentUser !==null &&  <Card
         onClick={open}
         className="flex justify-center items-center fw-bold "
       >
         Create App
-      </Card>
+      </Card>}
     </>
   );
 };

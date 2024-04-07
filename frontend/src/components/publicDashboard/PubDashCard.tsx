@@ -8,6 +8,7 @@ import { Modal, Button } from "@mantine/core";
 import { MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CreateBugReport } from "../ApiCaller.ts";
+import { useAuthContext } from "../auth/AuthContext.tsx";
 
 interface CardProps {
   app: iApp;
@@ -78,6 +79,7 @@ const CreateBugForm = ({ app, closeModal }: CreateBugForm) => {
 };
 
 const Card = ({ app, OnClick }: CardProps) => {
+  const {curentUser } = useAuthContext();
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
 
@@ -130,14 +132,13 @@ const Card = ({ app, OnClick }: CardProps) => {
                 app?.endpoints?.length > 3 && (
                   <p className="font-bold text-blue-900"> .... </p>
                 )}
-              <Button
+        {  curentUser!==null &&   (<Button
                 variant="default"
                 className="font-bold text-blue-900 my-2"
                 onClick={handleRedirect}
               >
-                {" "}
-                Go to dev dashboard{" "}
-              </Button>
+                Go to dev dashboard
+              </Button>)}
             </ul>
           </div>
         </div>
