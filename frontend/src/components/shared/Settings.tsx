@@ -4,6 +4,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { useState } from "react";
 import { useAuthContext } from "../auth/AuthContext";
+import { SetIntervalFrequency } from "../ApiCaller";
 
 const frequencies: string[] = [
   "5s",
@@ -37,6 +38,7 @@ const periods: string[] = [
   "2y",
 ];
 
+// seconds
 function ConvertLetterFreqToInt(c: string): number {
   if (c === "s") return 1;
   if (c === "m") return 60;
@@ -45,6 +47,7 @@ function ConvertLetterFreqToInt(c: string): number {
   return 1;
 }
 
+// hours
 function ConvertLetterPerToInt(c: string): number {
   if (c === "h") return 1;
   if (c === "d") return 24;
@@ -75,6 +78,7 @@ const Settings = () => {
       Number.parseInt(valuePeriod) *
       ConvertLetterPerToInt(valuePeriod.charAt(valuePeriod.length - 1));
     setCurentUser({ ...curentUser, frequency: freq, period: per } as User);
+    SetIntervalFrequency(freq).then((el) => console.log("A mers "));
   };
 
   return (

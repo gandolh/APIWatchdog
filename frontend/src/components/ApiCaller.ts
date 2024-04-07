@@ -90,7 +90,7 @@ const getAppWithLatestLogs = async (appId : string, hours: number): Promise<iApp
         {headers: {
            'Content-Type': 'application/x-www-form-urlencoded'
        }});
-        console.log(resp.data);
+        // console.log(resp.data);
         return resp.data;
     } catch (err) {
         console.log(err);
@@ -99,4 +99,32 @@ const getAppWithLatestLogs = async (appId : string, hours: number): Promise<iApp
 }
 
 
-export { getAllApps, createApp, GetAppById, addEndpointToApp,addAppToUser, GetUserApps, getAppWithLatestLogs };
+const CreateBugReport = async (appId : string, endpointName : string, state : string, message : string) => {
+    try {
+        const resp = await axios.post('http://localhost:3000/api/app/addReportToApp', {appId, endpointName, state, message},  
+        {headers: {
+           'Content-Type': 'application/x-www-form-urlencoded'
+       }});
+        return resp.data;
+    } catch (err) {
+        console.log(err);
+        return -1;
+    }
+}
+
+const SetIntervalFrequency = async (interval : number) : Promise<number> => {
+    try {
+        await axios.post('http://localhost:3000/api/setInterval', {interval},  
+        {headers: {
+           'Content-Type': 'application/x-www-form-urlencoded'
+       }});
+        return 0;
+    } catch (err) {
+        console.log(err);
+        return -1;
+    }
+}
+
+export { getAllApps, createApp, GetAppById, addEndpointToApp,addAppToUser, GetUserApps, getAppWithLatestLogs,CreateBugReport,
+    SetIntervalFrequency
+ };

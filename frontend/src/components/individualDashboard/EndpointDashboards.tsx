@@ -8,8 +8,8 @@ import AddEndpointCard from "./AddEndpointCard";
 
 interface EndpointDashboardsProps {
   endpoints: iEndpoint[];
-  OnRefetchData : () => void;
-  appId : string;
+  OnRefetchData: () => void;
+  appId: string;
 }
 
 interface EndpointCardProps {
@@ -45,17 +45,33 @@ const EndpointCard = ({ name, status, logs }: EndpointCardProps) => {
       newLogs[i].time = new Date(newLogs[i].time);
 
     newLogs.sort(function (a, b) {
-      return b.time.getTime() - a.time.getTime();
+      return a.time.getTime() - b.time.getTime();
     });
-    newLogs.slice(0, 10);
+    // const slicedArray = newLogs.slice(0).slice(-10).map((el) => {
+    //   return { time: el.time, status: getStatus(el.response) };
+    // });
 
     const myLogs: MyLog[] = newLogs.map((el) => {
       return { time: el.time, status: getStatus(el.response) };
     });
 
-    const allDown = myLogs.every((el) => el.status === "Unstable");
-    if (allDown) myLogs.forEach((el) => (el.status = "Down"));
+    //todo: when cele mai recente 10 nu sunt cu ok toate unstable devin rosu dupa ele
+    // const allDown = slicedArray.every((el) => el.status === "Unstable");
+    // if (allDown)
+    //   for(let i= Math.max(0, myLogs.length-5);i<myLogs.length;i++)
+    //     myLogs[i].status = "Down";
 
+    let zeroCount = 0;
+    for (let i = 0; i < myLogs.length; i++) {
+      if (myLogs[i].status === "Unstable") {
+        zeroCount++;
+        if (zeroCount === 10) {
+          for (let j = i - 10; j <= i; j++) myLogs[i].status = "Down";
+        } else if (zeroCount >= 10) {
+          myLogs[i].status = "Down";
+        }
+      } else zeroCount = 0;
+    }
     setLast10Logs(myLogs);
   }, [logs]);
 
@@ -72,8 +88,8 @@ const EndpointCard = ({ name, status, logs }: EndpointCardProps) => {
             <div className="h-full flex flex-col justify-center items-center">
               <div>
                 {" "}
-                {log.time.getHours()}:{log.time.getMinutes() < 10 && "0"}
-                {log.time.getMinutes()}
+                {/* {log.time.getHours()}:{log.time.getMinutes() < 10 && "0"}
+                {log.time.getMinutes()} */}
               </div>
               <div
                 className={"rounded-full w-6 h-6" + getBgColor(log.status)}
@@ -86,28 +102,28 @@ const EndpointCard = ({ name, status, logs }: EndpointCardProps) => {
   );
 };
 
-
-export function extractLastPathFragment(path: String) : String{
-  if(path === undefined) return "";
+export function extractLastPathFragment(path: String): String {
+  if (path === undefined) return "";
   const parts = path.split("/");
-  if(path[path.length - 1] == '/')
-    return parts[parts.length - 2]; 
+  if (path[path.length - 1] == "/") return parts[parts.length - 2];
   return parts[parts.length - 1];
-
 }
 
-const EndpointsDashboard = ({ endpoints, appId,  OnRefetchData }: EndpointDashboardsProps) => {
-
+const EndpointsDashboard = ({
+  endpoints,
+  appId,
+  OnRefetchData,
+}: EndpointDashboardsProps) => {
   return (
     <>
-      <AddEndpointCard OnRefetchData={OnRefetchData} appId={appId}/>
-        {endpoints.map((endpoint) => (
-            <EndpointCard
-              name={extractLastPathFragment(endpoint.name)}
-              status={endpoint.status}
-              logs={endpoint.logs}
-            />
-        ))}
+      <AddEndpointCard OnRefetchData={OnRefetchData} appId={appId} />
+      {endpoints.map((endpoint) => (
+        <EndpointCard
+          name={extractLastPathFragment(endpoint.name)}
+          status={endpoint.status}
+          logs={endpoint.logs}
+        />
+      ))}
     </>
   );
 };

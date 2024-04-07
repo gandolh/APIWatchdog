@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Card, SimpleGrid, Stack } from "@mantine/core";
+import { Card, Grid, SimpleGrid, Stack } from "@mantine/core";
 import AppPieChart from "./AppPieChart";
 import EndpointsDashboard from "./EndpointDashboards";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import iApp from "../../types/IApp";
 import { getAppWithLatestLogs } from "../ApiCaller";
 import iEndpoint from "../../types/IEndpoint";
 import { useAuthContext } from "../auth/AuthContext";
+import ColoredStatus from "../publicDashboard/ColoredStatus";
 
 const AppDashboard = () => {
   const { appId } = useParams();
@@ -19,18 +20,22 @@ const AppDashboard = () => {
 
   function getData() {
     if (appId === undefined || curentUser === null) return;
-    getAppWithLatestLogs(appId, curentUser.period).then((el) => {
+    getAppWithLatestLogs(appId, curentUser?.period ?? 24).then((el) => {
       if (el === -1) return;
       setApp(el);
     });
   }
 
-  useEffect(() => {
-    getData();
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     getData();
+    const interval = setInterval(() => {
+      getData();
+    }, (curentUser?.frequency ?? 60) * 1000);
+
+    //Clearing the interval
+    return () => clearInterval(interval);
   }, [curentUser]);
 
   useEffect(() => {
@@ -41,7 +46,7 @@ const AppDashboard = () => {
     const newLogs = endpoints.map((endpoint) => endpoint.logs ?? []).flat();
     //todo: codes
     setCodes200(
-      newLogs.filter((x) => x.response >= 200 && x.response < 300).length
+      newLogs.filter((x) => x.response >= 200 && x.response < 399).length
     );
     setCodes400(
       newLogs.filter((x) => x.response >= 400 && x.response < 500).length
@@ -56,28 +61,42 @@ const AppDashboard = () => {
       {appId && (
         <>
           <Stack>
-            <SimpleGrid cols={4} spacing="lg" mt={20}>
-              <Card>
-                <h1> 200 codes:</h1>
-                <p className="text-green-500"> {codes200}</p>
-              </Card>
-              <Card>
-                <h1> 400 codes:</h1>
-                <p className="text-red-500">{codes400} </p>
-              </Card>
-              <Card>
-                <h1> 500 codes:</h1>
-                <p className="text-red-500"> {codes500}</p>
-              </Card>
-
-              <Card className="flex justify-center items-center">
-                <Stack>
-                  <h1> Stable / Unstable / Down</h1>
-                  <AppPieChart endpoints={endpoints} />
-                </Stack>
-              </Card>
+            <SimpleGrid mt={20} cols={1} spacing="lg" verticalSpacing="lg">
+                <Card>
+                  {app &&
+                  <h1> {app?.appName} - <ColoredStatus status={app!.status}/>  </h1>
+                  }
+                   
+                </Card>
             </SimpleGrid>
-            <SimpleGrid cols={2} spacing="lg" verticalSpacing="lg">
+            <Grid >
+              <Grid.Col span={3}>
+                <Card className="h-full">
+                  <h1> 200 codes:</h1>
+                  <p className="text-green-500"> {codes200}</p>
+                  <h1> 400 codes:</h1>
+                  <p className="text-red-500">{codes400} </p>
+                  <h1> 500 codes:</h1>
+                  <p className="text-red-500"> {codes500}</p>
+                </Card>
+              </Grid.Col>
+              <Grid.Col span={6}>
+                <Card className="h-full">
+                    <h1> Bugs
+                       {/* <span className="text-white">Baniii</span>  */}
+                    </h1>
+                </Card>
+              </Grid.Col>
+              <Grid.Col span={3}>
+                <Card className="flex justify-center items-center">
+                  <Stack>
+                    <h1> Stable / Unstable / Down</h1>
+                    <AppPieChart endpoints={endpoints} />
+                  </Stack>
+                </Card>
+              </Grid.Col>
+            </Grid>
+            <SimpleGrid cols={1} spacing="lg" verticalSpacing="lg">
               <EndpointsDashboard
                 endpoints={endpoints}
                 appId={appId!}
