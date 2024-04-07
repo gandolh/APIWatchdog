@@ -78,6 +78,7 @@ appRouter.post("/addEndpointToApp", async (req, res) => {
 appRouter.post("/addReportToApp", async (req, res) => {
   try {
     const { appId, endpointName, state, message, email } = req.body;
+    // console.log("emailll: ", email)
     const reportData: iReport = {
       _id: new mongoose.Types.ObjectId().toString(),
       endpoint: endpointName,
