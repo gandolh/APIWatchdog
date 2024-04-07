@@ -36,7 +36,7 @@ const Card = ({ app, OnClick }: CardProps) => {
           <div className="px-6 relative">
             <div className="font-bold text-xl mb-2">{app.appName}</div>
             <Tooltip label="Report a bug" position="top">
-              <button onClick={handleReportBug}  className="absolute right-5 top-[-5px] bg-red-600 p-[5px] rounded text-white justify-center items-center">
+              <button onClick={handleReportBug}  className="absolute right-[12px] top-[-5px] bg-red-600 p-[5px] rounded text-white justify-center items-center">
                 <IconBug></IconBug>
               </button>
             </Tooltip>
