@@ -1,4 +1,4 @@
-import { Card, Group, Stack } from "@mantine/core";
+import { Card, Group, Stack, Tooltip } from "@mantine/core";
 import ColoredStatus, { getBgColor } from "../publicDashboard/ColoredStatus";
 import { Status } from "../../types/Status";
 import iEndpoint from "../../types/IEndpoint";
@@ -56,8 +56,12 @@ const EndpointCard = ({ name, status, logs }: EndpointCardProps) => {
   // altfel unstable
 
   const [last10Logs, setLast10Logs] = useState<MyLog[]>([]);
-  const [fragmentDates, setFragmentDates] = useState<Date[]>([]);
+  // const [fragmentDates, setFragmentDates] = useState<Date[]>([]);
   const {curentUser } = useAuthContext();
+
+  // const getSLotsCount = () => {
+  //  return (curentUser?.period ?? 24)* 3600 / (curentUser?.frequency ?? 60);
+  // }
 
   useEffect(() => {
     // console.log(logs);
@@ -87,11 +91,16 @@ const EndpointCard = ({ name, status, logs }: EndpointCardProps) => {
     }
 
 
-    const startDate = new Date();
-    startDate.setHours(startDate.getHours() - (curentUser?.period ?? 24));
-    const endDate = new Date();
-    const newFragmentedDates =  getEvenlySpacedDates(startDate, endDate,6)
-    setFragmentDates(newFragmentedDates);
+    // const startDate = new Date();
+    // startDate.setHours(startDate.getHours() - (curentUser?.period ?? 24));
+    // const endDate = new Date();
+    // const newFragmentedDates =  getEvenlySpacedDates(startDate, endDate,6)
+    // setFragmentDates(newFragmentedDates);
+    // const slotsCount = getSLotsCount();
+    // const temp = [
+    //   ...new Array(slotsCount - myLogs.length) as MyLog[],
+    //   ...myLogs,
+    //   ];
     setLast10Logs(myLogs);
   }, [logs]);
 
@@ -104,16 +113,18 @@ const EndpointCard = ({ name, status, logs }: EndpointCardProps) => {
       </div>
       <div>
         <div className="flex justify-between">
-          {fragmentDates.map(date =>(
+          {/* {fragmentDates.map(date =>(
             <div> <DateComponent date={date}/></div>
-          ))}
+          ))} */}
         </div>
         <Group gap={0} grow h={30}>
           {last10Logs.map((log) => (
-            <div className="h-full flex flex-col justify-center items-center">
+            <div className="h-full w-full flex flex-col justify-center items-center">
+              <Tooltip label={log.time.toLocaleString("ro-RO")}>
               <div
-                className={"rounded-full w-6 h-2" + getBgColor(log.status)}
-              ></div>
+                className={"rounded-full w-full h-2" + getBgColor(log?.status)}
+                ></div>
+                </Tooltip>
             </div>
           ))}
         </Group>
