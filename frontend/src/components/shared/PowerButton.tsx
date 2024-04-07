@@ -4,6 +4,7 @@ import classes from './UserButton.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToggleThemeComp } from './ToggleThemeComp';
 import { useAuthContext } from '../auth/AuthContext';
+import Settings from './Settings';
 
 type PowerButtonProps = {
     authenticatedUser: User;
@@ -23,6 +24,7 @@ const PowerButton = ({ authenticatedUser }: PowerButtonProps) => {
     return (
         <>
             <ToggleThemeComp />
+            <Settings/>
             <Popover width={300} trapFocus position="bottom" withArrow shadow="md">
                 <Popover.Target>
                     <div className='flex gap-4'>
