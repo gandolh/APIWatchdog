@@ -15,9 +15,7 @@ const PubDashboardComp = ({data,OnRefetchData} : PubDashboardComp) => {
       <AddAppCard OnRefetchData={OnRefetchData}/>
       {data.map((app) => {
         return (
-          <Link to={`pubdash/${app._id}`}>
             <PubDashCard app={app} />
-          </Link>
         );
       })}
     </div>

@@ -83,4 +83,20 @@ const GetUserApps = async (email : string ): Promise<string[] | -1> =>{
     }
 }
 
-export { getAllApps, createApp, GetAppById, addEndpointToApp,addAppToUser, GetUserApps };
+const getAppWithLatestLogs = async (appId : string, hours: number): Promise<iApp | -1> =>{
+    try {
+        console.log(appId, hours);
+        const resp = await axios.post('http://localhost:3000/api/app/getAppWithLatestLogs', {appId : appId, hours : hours},  
+        {headers: {
+           'Content-Type': 'application/x-www-form-urlencoded'
+       }});
+        console.log(resp.data);
+        return resp.data;
+    } catch (err) {
+        console.log(err);
+        return -1;
+    }
+}
+
+
+export { getAllApps, createApp, GetAppById, addEndpointToApp,addAppToUser, GetUserApps, getAppWithLatestLogs };
