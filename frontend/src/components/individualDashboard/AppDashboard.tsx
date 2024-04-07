@@ -138,8 +138,10 @@ const AppDashboard = () => {
             </SimpleGrid>
             <Grid>
               <Grid.Col span={3}>
-                <Card className="h-full">
+                <Card className="h-full flex justify-center items-center" >
+                  <SimpleGrid cols={3} >
                  <AverageStatsComp data={statusCodes}/>
+                  </SimpleGrid>
                 </Card>
               </Grid.Col>
               <Grid.Col span={6}>

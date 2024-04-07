@@ -5,7 +5,7 @@ import { IconBug } from "@tabler/icons-react";
 import { Select, Stack, TextInput, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CreateBugReport } from "../ApiCaller.ts";
 import { useAuthContext } from "../auth/AuthContext.tsx";
@@ -26,6 +26,7 @@ const CreateBugForm = ({ app, closeModal }: CreateBugForm) => {
   const [valueStatus, setValueStatus] = useState<string | null>();
   const [endpoints, setEndpoints] = useState<string[]>([]);
   const [message, setMessage] = useState<string>("");
+  const {curentUser} = useAuthContext();
   
   const handleSubmitBugReport = () => {
     if(valueEndpoint === null || valueEndpoint === undefined) {
@@ -37,7 +38,8 @@ const CreateBugForm = ({ app, closeModal }: CreateBugForm) => {
       console.log("error handleSubmitBugReport");
       return;
     }
-    CreateBugReport(app._id, valueEndpoint, valueStatus, message).then(respData => {
+    if(curentUser?.email === undefined) console.log("user cannot be foound");
+    CreateBugReport(app._id, valueEndpoint, valueStatus, message, curentUser?.email ?? "" ).then(respData => {
       console.log(respData);
       closeModal();
     })

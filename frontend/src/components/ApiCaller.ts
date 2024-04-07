@@ -99,9 +99,9 @@ const getAppWithLatestLogs = async (appId : string, hours: number): Promise<iApp
 }
 
 
-const CreateBugReport = async (appId : string, endpointName : string, state : string, message : string) => {
+const CreateBugReport = async (appId : string, endpointName : string, state : string, message : string, email : string) => {
     try {
-        const resp = await axios.post('http://localhost:3000/api/app/addReportToApp', {appId, endpointName, state, message},  
+        const resp = await axios.post('http://localhost:3000/api/app/addReportToApp', {appId, endpointName, state, message, email},  
         {headers: {
            'Content-Type': 'application/x-www-form-urlencoded'
        }});
