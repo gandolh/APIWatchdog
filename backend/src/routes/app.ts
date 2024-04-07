@@ -21,6 +21,11 @@ const appRouter = express.Router();
 appRouter.get("/getAll", async (req, res) => {
   try {
     const apps = await getAllApps();
+    apps.flatMap((app) => {
+        app.endpoints?.toObject().map((endpoint: iEndpoint) => {
+            endpoint.logs = [];
+        });
+    });
     res.json(apps);
   } catch (err) {
     err instanceof Error && res.status(500).json({ Error: err.message });
