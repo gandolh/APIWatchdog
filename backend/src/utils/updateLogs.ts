@@ -33,12 +33,12 @@ const updateAppEndpoints = async (app: any) => {
 };
 
 const updateEndpoint = async (endpoint: iEndpoint) => {
-    // const response = await fetch(endpoint.name.toString());
+    const response = await fetch(endpoint.name.toString());
 
-    // endpoint.logs.push({
-    //     time: new Date(),
-    //     response: response.status,
-    // } as iLog);
+    endpoint.logs.push({
+        time: new Date(),
+        response: response.status,
+    } as iLog);
 
     let logs = endpoint.logs;
     logs.sort((a, b) => {
