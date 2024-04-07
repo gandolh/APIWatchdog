@@ -6,7 +6,7 @@ import iReport from '../types/report';
 import { Status } from '../types/status';
 
 const updateAtInterval = async (interval: number) => {
-    setInterval(updateAllApps, interval * 1000);
+    return await setInterval(updateAllApps, interval * 1000);
 };
 
 const updateAllApps = async () => {

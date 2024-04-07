@@ -6,7 +6,6 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import appRouter from './routes/app';
 import updateAtInterval from './utils/updateLogs';
-import Apps from './models/app';
 
 dotenv.config();
 
@@ -37,4 +36,14 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
-updateAtInterval(5);
+let myInterval = updateAtInterval(60);
+
+app.post('/api/setInterval', async (req, res) => {
+    const { interval } = req.body;
+    if (interval) {
+        clearInterval(await myInterval);
+        myInterval = updateAtInterval(interval);
+        res.status(200).json({ message: `Interval set to ${interval} seconds!` });
+        console.log(`Interval modified to ${interval} seconds!`);
+    }
+});
