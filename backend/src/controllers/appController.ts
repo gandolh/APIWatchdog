@@ -75,3 +75,22 @@ export const getAppWithLatestLogs = async (id: string, hours: number) => {
 
     return { ...app.toObject(), endpoints: newEndpoints };
 }
+
+export const updateReport = async (appId: string, reportId: string) => {
+    const app = await apps.findById(appId);
+    if (!app) {
+        throw new Error('App not found');
+    }
+    const reports: iReport[] | undefined = app.reports.toObject();
+    if (!reports) {
+        throw new Error('Reports not found');
+    }
+    const reportIndex: number | undefined = reports?.findIndex((r: iReport) => r._id === reportId);
+    if (reportIndex === undefined || reportIndex === -1) {
+        throw new Error('Report not found');
+    }
+    reports[reportIndex].fixed = true;
+    await apps.findByIdAndUpdate(appId, { reports });
+    console.log(reports);
+    return 200;
+}
