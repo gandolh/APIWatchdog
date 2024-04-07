@@ -25,3 +25,5 @@ app.use(router.allowedMethods());
 
 console.log("Server running on http://localhost:3001");
 await app.listen({ port: 3001 });
+
+// deno run --allow-net testAPI/main.ts
