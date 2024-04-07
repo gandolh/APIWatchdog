@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Card, Grid, SimpleGrid, Stack } from "@mantine/core";
+import { Card, Grid, SimpleGrid, Stack, Tooltip } from "@mantine/core";
 import AppPieChart from "./AppPieChart";
 import EndpointsDashboard from "./EndpointDashboards";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import { useAuthContext } from "../auth/AuthContext";
 import ColoredStatus from "../publicDashboard/ColoredStatus";
 import { Status } from "../../types/Status";
 import iReport from "../../types/IReport";
+import { IconTool } from "@tabler/icons-react";
 
 const AppDashboard = () => {
   const { appId } = useParams();
@@ -28,12 +29,6 @@ const AppDashboard = () => {
     });
   }
 
-  enum State {
-    "Stable" = 0,
-    "Unstable" = 1,
-    "Down" = 2,
-  }
-
   const BugsList = () => {
     // Group the reports based on their endpoint name
     // Sort the reports based on their status
@@ -49,6 +44,24 @@ const AppDashboard = () => {
       }
     });
 
+    const sortedReports = Array.from(groupedReports.values()).map((reports) =>
+      reports.sort((a, b) => a.endpoint.localeCompare(b.endpoint.toString()))
+    ).flatMap((reports) => reports.filter((report) => !report.fixed));
+
+    return (
+      <Stack gap={1} className="overflow-auto">
+        {sortedReports.map((report, index) => (
+          <Card key={index} className="relative">
+            <p className="font-bold"> {report.endpoint} </p>
+            <ColoredStatus status={report.state as Status} myClasses="absolute right-10 text-xl"/>
+            <p> {report.message} </p>
+            <Tooltip label="Mark as fixed" position="top">
+              <IconTool className="right-0 absolute hover:cursor-pointer"></IconTool>
+            </Tooltip>
+          </Card>
+        ))}
+      </Stack>
+    );
     
   }
 
@@ -107,7 +120,7 @@ const AppDashboard = () => {
                 </Card>
               </Grid.Col>
               <Grid.Col span={6}>
-                <Card className="overflow-auto h-[200px]">
+                <Card h={300}>
                     <h1> Bugs
                        {/* <span className="text-white">Baniii</span>  */}
                     </h1>
@@ -115,7 +128,7 @@ const AppDashboard = () => {
                 </Card>
               </Grid.Col>
               <Grid.Col span={3}>
-                <Card className="flex justify-center items-center">
+                <Card className="flex justify-center items-center h-full">
                   <Stack>
                     <h1> Stable / Unstable / Down</h1>
                     <AppPieChart endpoints={endpoints} />

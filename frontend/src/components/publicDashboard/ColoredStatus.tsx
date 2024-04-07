@@ -4,6 +4,7 @@ import { Status } from "../../types/Status";
 
 interface ColoredStatusProps {
  status : Status
+ myClasses? : string
 }
 
 function getTextColor(status : Status){
@@ -33,11 +34,11 @@ function getBgColor(status : Status){
 }
 
 
-const ColoredStatus = ({status} : ColoredStatusProps) => {
+const ColoredStatus = ({status, myClasses} : ColoredStatusProps) => {
     
     
     return ( 
-        <span className={getTextColor(status)}>{status}</span>
+        <span className={`${getTextColor(status)} ${myClasses}`}>{status}</span>
     );
 }
 
