@@ -3,6 +3,7 @@ import iApp, { iAppDocument } from "../types/app";
 import iEndpoint from "../types/endpoint";
 import iReport from "../types/report";
 import iLog from "../types/log";
+import { Mail } from "../utils/mail";
 
 export const createApp = async (appData: iApp) => {
   const newApp = new apps(appData);
@@ -28,13 +29,16 @@ export const addEndpointToApp = async (appId: string, endpoint: iEndpoint) => {
     return 200;
 }
 
-export const addReportToApp = async (appId: string, report: iReport) => {
+export const addReportToApp = async (appId: string, report: iReport, email: string) => {
     const app = await apps.findById(appId);
     if (!app) {
         throw new Error('App not found');
     }
     app.reports.push(report);
     await app.save();
+
+    await Mail.sendMail(email, 'New bug reported', 'A new bug has been reported on your app. Please check the reports section in the dashboard.');
+
     return 200;
 }
 

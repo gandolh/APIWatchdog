@@ -77,7 +77,7 @@ appRouter.post("/addEndpointToApp", async (req, res) => {
 
 appRouter.post("/addReportToApp", async (req, res) => {
   try {
-    const { appId, endpointName, state, message } = req.body;
+    const { appId, endpointName, state, message, email } = req.body;
     const reportData: iReport = {
       _id: new mongoose.Types.ObjectId().toString(),
       endpoint: endpointName,
@@ -85,7 +85,7 @@ appRouter.post("/addReportToApp", async (req, res) => {
       message,
       fixed: false,
     };
-    const status = await addReportToApp(appId, reportData);
+    const status = await addReportToApp(appId, reportData, email);
     res.sendStatus(status);
   } catch (err) {
     err instanceof Error && res.status(500).json({ Error: err.message });
