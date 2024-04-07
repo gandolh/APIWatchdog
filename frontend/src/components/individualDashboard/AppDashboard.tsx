@@ -128,6 +128,7 @@ const AppDashboard = () => {
                 endpoints={endpoints}
                 appId={appId!}
                 OnRefetchData={getData}
+                
               />
             </SimpleGrid>
           </Stack>
