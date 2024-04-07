@@ -125,6 +125,20 @@ const SetIntervalFrequency = async (interval : number) : Promise<number> => {
     }
 }
 
+const updateReport = async (appId : string, reportId : string) : Promise<number> => {
+    try {
+        await axios.post('http://localhost:3000/api/app/updateReport', {appId, reportId},  
+        {headers: {
+           'Content-Type': 'application/x-www-form-urlencoded'
+       }});
+       console.log("OK");
+        return 0;
+    } catch (err) {
+        console.log(err);
+        return -1;
+    }   
+}
+
 export { getAllApps, createApp, GetAppById, addEndpointToApp,addAppToUser, GetUserApps, getAppWithLatestLogs,CreateBugReport,
-    SetIntervalFrequency
+    SetIntervalFrequency, updateReport
  };

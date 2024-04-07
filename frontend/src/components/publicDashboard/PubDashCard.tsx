@@ -13,6 +13,7 @@ import { useAuthContext } from "../auth/AuthContext.tsx";
 interface CardProps {
   app: iApp;
   OnClick?: () => void;
+  isUserDashboard : boolean;
 }
 
 interface CreateBugForm {
@@ -78,7 +79,7 @@ const CreateBugForm = ({ app, closeModal }: CreateBugForm) => {
   );
 };
 
-const Card = ({ app, OnClick }: CardProps) => {
+const Card = ({ app, OnClick, isUserDashboard }: CardProps) => {
   const {curentUser } = useAuthContext();
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
@@ -132,7 +133,7 @@ const Card = ({ app, OnClick }: CardProps) => {
                 app?.endpoints?.length > 3 && (
                   <p className="font-bold text-blue-900"> .... </p>
                 )}
-        {  curentUser!==null &&   (<Button
+        {  curentUser!==null  && isUserDashboard &&  (<Button
                 variant="default"
                 className="font-bold text-blue-900 my-2"
                 onClick={handleRedirect}

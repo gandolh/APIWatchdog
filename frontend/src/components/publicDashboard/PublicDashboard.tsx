@@ -26,7 +26,7 @@ const PublicDashboard = () => {
       style={{ height: "calc(100dvh - 60px - var(--app-shell-padding))" }}
     >
       <div className="w-full mx-auto h-[80dvh]">
-        <PubDashboardComp data={data} OnRefetchData={GetData} />
+        <PubDashboardComp data={data} OnRefetchData={GetData} isUserDashboard={false} />
       </div>
     </Container>
   );
