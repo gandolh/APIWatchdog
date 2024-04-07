@@ -8,6 +8,8 @@ import { getAppWithLatestLogs } from "../ApiCaller";
 import iEndpoint from "../../types/IEndpoint";
 import { useAuthContext } from "../auth/AuthContext";
 import ColoredStatus from "../publicDashboard/ColoredStatus";
+import { Status } from "../../types/Status";
+import iReport from "../../types/IReport";
 
 const AppDashboard = () => {
   const { appId } = useParams();
@@ -24,6 +26,30 @@ const AppDashboard = () => {
       if (el === -1) return;
       setApp(el);
     });
+  }
+
+  enum State {
+    "Stable" = 0,
+    "Unstable" = 1,
+    "Down" = 2,
+  }
+
+  const BugsList = () => {
+    // Group the reports based on their endpoint name
+    // Sort the reports based on their status
+    // Display the reports only if they are not fixed
+
+    const reports = app?.reports ?? [];
+    const groupedReports = new Map<string, iReport[]>();
+    reports.forEach((report) => {
+      if (groupedReports.has(report.endpoint.toString())) {
+        groupedReports.get(report.endpoint.toString())?.push(report);
+      } else {
+        groupedReports.set(report.endpoint.toString(), [report]);
+      }
+    });
+
+    
   }
 
   useEffect(() => {}, []);
@@ -81,10 +107,11 @@ const AppDashboard = () => {
                 </Card>
               </Grid.Col>
               <Grid.Col span={6}>
-                <Card className="h-full">
+                <Card className="overflow-auto h-[200px]">
                     <h1> Bugs
                        {/* <span className="text-white">Baniii</span>  */}
                     </h1>
+                    <BugsList />
                 </Card>
               </Grid.Col>
               <Grid.Col span={3}>
