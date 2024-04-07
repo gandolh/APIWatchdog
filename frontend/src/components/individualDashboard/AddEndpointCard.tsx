@@ -78,6 +78,8 @@ const AddEndpointCard = ({ OnRefetchData, appId }: AddEndpointCard) => {
         <AddEndpointForm OnClose={handleClose} appId={appId} />
       </Modal>
       <Card
+      bg={'teal'}
+      c={'white'}
         onClick={open}
         className="flex justify-center items-center fw-bold "
       >

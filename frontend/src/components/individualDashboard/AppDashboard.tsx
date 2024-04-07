@@ -11,6 +11,9 @@ const AppDashboard = () => {
   const { appId } = useParams();
   const [app, setApp] = useState<iApp>();
   const [endpoints, SetEndpoints] = useState<iEndpoint[]>([]);
+  const [codes200, setCodes200] = useState<number>();
+  const [codes400, setCodes400] = useState<number>();
+  const [codes500, setCodes500] = useState<number>();
 
   function getData() {
     if (appId === undefined) return;
@@ -28,6 +31,14 @@ const AppDashboard = () => {
     if (app?.endpoints !== undefined) SetEndpoints(app?.endpoints);
   }, [app]);
 
+  useEffect(()=>{
+    const newLogs = endpoints.map(endpoint => endpoint.logs ?? []).flat();
+    //todo: codes 
+    setCodes200(newLogs.filter(x => x.response>= 200 && x.response<300).length);
+    setCodes400(newLogs.filter(x => x.response>= 400 && x.response<500).length);
+    setCodes500(newLogs.filter(x => x.response>= 500 && x.response<600).length);
+  },[endpoints])
+
   return (
     <>
       {appId && (
@@ -35,32 +46,31 @@ const AppDashboard = () => {
           <Stack>
             <SimpleGrid cols={4} spacing="lg" mt={20}>
               <Card>
-                <h1> 200 returns:</h1>
-                <p className="text-green-500"> 20</p>
+                <h1> 200 codes:</h1>
+                <p className="text-green-500"> {codes200}</p>
               </Card>
               <Card>
-                <h1> 404 returns:</h1>
-                <p className="text-red-500">10 </p>
-
+                <h1> 400 codes:</h1>
+                <p className="text-red-500">{codes400} </p>
               </Card>
               <Card>
-                <h1> 500-511 returns:</h1>
-                <p className="text-red-500"> 5</p>
-
+                <h1> 500 codes:</h1>
+                <p className="text-red-500"> {codes500}</p>
               </Card>
 
-              <div className="flex justify-center items-center">
+              <Card className="flex justify-center items-center">
+              <Stack>
+                 <h1> Stable / Unstable / Down</h1>
                 <AppPieChart endpoints={endpoints} />
-              </div>
+                </Stack>
+              </Card>
             </SimpleGrid>
-            <SimpleGrid cols={2} spacing="lg" verticalSpacing="lg" >
-              <div className="flex justify-center items-center">
+            <SimpleGrid cols={2} spacing="lg" verticalSpacing="lg">
                 <EndpointsDashboard
                   endpoints={endpoints}
                   appId={appId!}
                   OnRefetchData={getData}
                 />
-              </div>
             </SimpleGrid>
           </Stack>
         </>

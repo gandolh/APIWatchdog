@@ -100,7 +100,6 @@ const EndpointsDashboard = ({ endpoints, appId,  OnRefetchData }: EndpointDashbo
 
   return (
     <>
-      <Stack gap={10} className="w-full h-full">
       <AddEndpointCard OnRefetchData={OnRefetchData} appId={appId}/>
         {endpoints.map((endpoint) => (
             <EndpointCard
@@ -109,7 +108,6 @@ const EndpointsDashboard = ({ endpoints, appId,  OnRefetchData }: EndpointDashbo
               logs={endpoint.logs}
             />
         ))}
-      </Stack>
     </>
   );
 };

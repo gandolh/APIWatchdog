@@ -70,7 +70,7 @@ const addEndpointToApp = async ( appId : string, endpointName : string ) => {
     }
 }
 
-const GetUserApps = async (email : string ): Promise<iApp[] | -1> =>{
+const GetUserApps = async (email : string ): Promise<string[] | -1> =>{
     try {
         const resp = await axios.post('http://localhost:3000/api/user/getApps', {email},  
         {headers: {

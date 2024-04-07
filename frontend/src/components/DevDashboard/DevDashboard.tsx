@@ -3,7 +3,7 @@ import PubDashboardComp from "../publicDashboard/PubDashboardComp";
 import { useAuthContext } from "../auth/AuthContext";
 import { useEffect, useState } from "react";
 import iApp from "../../types/IApp";
-import { GetUserApps } from "../ApiCaller";
+import { GetUserApps, getAllApps } from "../ApiCaller";
 
 
 
@@ -14,9 +14,16 @@ const DevDashboard = () => {
 
   function GetData() {
     if(curentUser === null)return;
-    GetUserApps(curentUser.email).then((el) => {
-      if (el === -1) return;
-      setData(el);
+    getAllApps().then((allApps) => {
+      if (allApps === -1) return;
+      GetUserApps(curentUser.email).then((filteredIds)=>{
+        if(filteredIds === -1)return;
+        console.log(filteredIds);
+        console.log(allApps);
+        const filteredApps = allApps.filter( allApp => filteredIds.includes(allApp._id));
+        console.log(filteredApps);
+        setData(filteredApps);
+      })
     });
   }
 

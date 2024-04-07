@@ -1,4 +1,4 @@
 export default interface iLog {
-    response: Number;
+    response: number;
     time: Date;
 };
