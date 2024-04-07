@@ -4,7 +4,7 @@ import iEndpoint from '../types/endpoint';
 import iReport from '../types/report';
 import iLog from '../types/log';
 import mongoose from 'mongoose';
-import { createApp, addEndpointToApp, addReportToApp, getAllApps, getAppById, addLogToEndpoint } from '../controllers/appController';
+import { createApp, addEndpointToApp, addReportToApp, getAllApps, getAppById, addLogToEndpoint, getAppWithLatestLogs } from '../controllers/appController';
 import { Status } from '../types/status';
 
 const appRouter = express.Router();
@@ -76,6 +76,17 @@ appRouter.post('/addLogToEndpoint', async (req, res) => {
         const logData: iLog = { response: Number.parseInt(response), time: new Date() };
         const status = await addLogToEndpoint(appId, endpointName, logData);
         res.sendStatus(status);
+    } catch(err) {
+        err instanceof Error && res.status(500).json({ Error: err.message });
+        console.error(err);
+    }
+});
+
+appRouter.post('/getAppWithLatestLogs', async (req, res) => {
+    try {
+        const { id, hours } = req.body;
+        const app = await getAppWithLatestLogs(id, hours);
+        res.json(app);
     } catch(err) {
         err instanceof Error && res.status(500).json({ Error: err.message });
         console.error(err);

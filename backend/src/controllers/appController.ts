@@ -53,3 +53,25 @@ export const addLogToEndpoint = async (appId: string, endpointName: string, log:
     await app.save();
     return 200;
 }
+
+export const getAppWithLatestLogs = async (id: string, hours: number) => {
+    const app: iAppDocument | null = await apps.findById(id);
+    if (!app) {
+        throw new Error('App not found');
+    }
+    const endpoints: [iEndpoint] | undefined = app.endpoints;
+
+    const newEndpoints: iEndpoint[] = [];
+
+    endpoints?.forEach((e: iEndpoint) => {
+        const logs: iLog[] = [];
+        e.logs?.forEach((l: iLog) => {
+            if (new Date().getTime() - l.time.getTime() < hours * 3600000) {
+                logs.push(l);
+            }
+        });
+        newEndpoints.push({ ...e, logs });
+    });
+
+    return { ...app, endpoints: newEndpoints };
+}
