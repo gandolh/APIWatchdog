@@ -1,5 +1,7 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 
+const codes = [200, 302, 404, 500];
+
 const router = new Router();
 router
     .get("/200", (ctx) => {
@@ -17,6 +19,23 @@ router
     .get("/500", (ctx) => {
         ctx.response.status = 500;
         ctx.response.body = "Internal Server Error";
+    })
+    .get("/random", (ctx) => {
+        ctx.response.status = codes[Math.floor(Math.random() * codes.length)];
+        switch (ctx.response.status) {
+            case 200:
+                ctx.response.body = "OK";
+                break;
+            case 302:
+                ctx.response.body = "Redirect";
+                break;
+            case 404:
+                ctx.response.body = "Not Found";
+                break;
+            case 500:
+                ctx.response.body = "Internal Server Error";
+                break;
+        }
     });
 
 const app = new Application();
