@@ -45,5 +45,7 @@ app.post('/api/setInterval', async (req, res) => {
         myInterval = updateAtInterval(interval);
         res.status(200).json({ message: `Interval set to ${interval} seconds!` });
         console.log(`Interval modified to ${interval} seconds!`);
+    } else {
+        res.status(400).json({ error: 'Interval not provided!' });
     }
 });
