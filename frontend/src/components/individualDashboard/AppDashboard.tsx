@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Card, Grid, SimpleGrid, Stack, Tooltip } from "@mantine/core";
+import { Box, Card, Grid, SimpleGrid, Stack, Tooltip } from "@mantine/core";
 import AppPieChart from "./AppPieChart";
 import EndpointsDashboard from "./EndpointDashboards";
 import { useEffect, useState } from "react";
@@ -44,26 +44,32 @@ const AppDashboard = () => {
       }
     });
 
-    const sortedReports = Array.from(groupedReports.values()).map((reports) =>
-      reports.sort((a, b) => a.endpoint.localeCompare(b.endpoint.toString()))
-    ).flatMap((reports) => reports.filter((report) => !report.fixed));
+    const sortedReports = Array.from(groupedReports.values())
+      .map((reports) =>
+        reports.sort((a, b) => a.endpoint.localeCompare(b.endpoint.toString()))
+      )
+      .flatMap((reports) => reports.filter((report) => !report.fixed));
 
     return (
-      <Stack gap={1} className="overflow-auto">
-        {sortedReports.map((report, index) => (
-          <Card key={index} className="relative">
-            <p className="font-bold"> {report.endpoint} </p>
-            <ColoredStatus status={report.state as Status} myClasses="absolute right-10 text-xl"/>
-            <p> {report.message} </p>
-            <Tooltip label="Mark as fixed" position="top">
-              <IconTool className="right-0 absolute hover:cursor-pointer"></IconTool>
-            </Tooltip>
-          </Card>
-        ))}
-      </Stack>
+      <Box className="overflow-auto" h={250}>
+        <Stack gap={1}>
+          {sortedReports.map((report, index) => (
+            <Card key={index} className="relative">
+              <p className="font-bold"> {report.endpoint} </p>
+              <ColoredStatus
+                status={report.state as Status}
+                myClasses="absolute right-10 text-xl"
+              />
+              <p> {report.message} </p>
+              <Tooltip label="Mark as fixed" position="top">
+                <IconTool className="right-0 absolute hover:cursor-pointer"></IconTool>
+              </Tooltip>
+            </Card>
+          ))}
+        </Stack>
+      </Box>
     );
-    
-  }
+  };
 
   useEffect(() => {}, []);
 
@@ -101,14 +107,16 @@ const AppDashboard = () => {
         <>
           <Stack>
             <SimpleGrid mt={20} cols={1} spacing="lg" verticalSpacing="lg">
-                <Card>
-                  {app &&
-                  <h1> {app?.appName} - <ColoredStatus status={app!.status}/>  </h1>
-                  }
-                   
-                </Card>
+              <Card>
+                {app && (
+                  <h1>
+                    {" "}
+                    {app?.appName} - <ColoredStatus status={app!.status} />{" "}
+                  </h1>
+                )}
+              </Card>
             </SimpleGrid>
-            <Grid >
+            <Grid>
               <Grid.Col span={3}>
                 <Card className="h-full">
                   <h1> 200 codes:</h1>
@@ -120,11 +128,12 @@ const AppDashboard = () => {
                 </Card>
               </Grid.Col>
               <Grid.Col span={6}>
-                <Card h={300}>
-                    <h1> Bugs
-                       {/* <span className="text-white">Baniii</span>  */}
-                    </h1>
-                    <BugsList />
+                <Card>
+                  <h1>
+                    {" "}
+                    Bugs
+                  </h1>
+                  <BugsList />
                 </Card>
               </Grid.Col>
               <Grid.Col span={3}>
@@ -141,7 +150,6 @@ const AppDashboard = () => {
                 endpoints={endpoints}
                 appId={appId!}
                 OnRefetchData={getData}
-                
               />
             </SimpleGrid>
           </Stack>
