@@ -1,132 +1,138 @@
 # Architecture
 
-## Backend (`backend/`)
+## Workspace layout (npm workspaces)
+
+```
+/
+  package.json            workspace root — scripts: dev:be, dev:fe, build
+  packages/
+    shared/               @apiwatchdog/shared — TypeScript types only, no build step
+    be/                   @apiwatchdog/be     — Express 5 API + SQLite
+    fe/                   @apiwatchdog/fe     — React 19 SPA
+  data/
+    watchdog.db           SQLite database (created at runtime)
+  corpus/                 this wiki
+```
+
+Shared types are consumed via TypeScript path aliases (`@apiwatchdog/shared →
+../shared/src/index.ts`) in both `be` and `fe` tsconfigs. No build step is needed
+for the shared package.
+
+## Backend (`packages/be/`)
 
 ```
 src/
-  app.ts                  Entry point — Express app setup, middleware, server start,
-                          polling interval kick-off
+  app.ts                  Express 5 app setup, cors, json, urlencoded, route mounting,
+                          startPolling(60) on boot, POST /api/setInterval
   config/
-    dbConnection.ts       Mongoose connect to MongoDB ("API-Watchdog" db)
-  models/
-    app.ts                Mongoose model for App (appName, status, endpoints[], reports[])
-    user.ts               Mongoose model for User (username, email, password, apps[], updateInterval)
+    db.ts                 better-sqlite3 init — WAL + FK pragmas, creates all tables on
+                          first run, returns the singleton DB instance
   controllers/
-    appController.ts      CRUD + log/report logic for Apps
-    userController.ts     Auth (login/register), user-app associations, interval setting
+    appController.ts      Fully synchronous SQLite CRUD — apps, endpoints, logs, reports.
+                          updateAllAppsStatus() recomputes all app/endpoint statuses from
+                          the last 10 logs after each poll cycle.
+    userController.ts     Synchronous bcrypt (compareSync/hashSync), user CRUD,
+                          user_apps join table management.
   routes/
-    app.ts                /api/app/* — all app-related endpoints
-    user.ts               /api/user/* — auth + user management
-  types/                  TypeScript interfaces (iApp, iEndpoint, iLog, iReport, iUser, Status)
+    app.ts                /api/app/* routes
+    user.ts               /api/user/* routes
   utils/
-    bCrypt.ts             hashPassword / comparePassword wrappers
-    mail.ts               Nodemailer transporter (Gmail SMTP, env-driven)
-    updateLogs.ts         The polling engine — setInterval loop that fetches every endpoint
+    mail.ts               Nodemailer 9 Gmail transporter
+    updateLogs.ts         Async polling engine — fetch() per endpoint, insert log, trim to
+                          10 logs, then updateAllAppsStatus(). startPolling(seconds) wraps
+                          it in a setInterval.
 ```
+
+### SQLite schema (6 tables)
+
+```
+apps         (id TEXT PK, appName TEXT, status TEXT)
+endpoints    (id TEXT PK, appId TEXT FK→apps, name TEXT, status TEXT)
+logs         (id TEXT PK, endpointId TEXT FK→endpoints, response INTEGER, time TEXT)
+reports      (id TEXT PK, appId TEXT FK→apps, endpoint TEXT, state TEXT,
+              message TEXT, fixed INTEGER DEFAULT 0)
+users        (id TEXT PK, username TEXT, email TEXT UNIQUE, password TEXT,
+              update_interval INTEGER DEFAULT 60)
+user_apps    (userId TEXT FK→users, appId TEXT FK→apps, PK(userId,appId))
+```
+
+All PKs are `uuid` v4 strings. `better-sqlite3` synchronous API — no async/await
+in controllers. Logs capped at 10 per endpoint (oldest deleted on insert when count > 10).
 
 ### Polling engine (`updateLogs.ts`)
 
-The core loop runs server-side on a configurable interval (default 60s, user-adjustable
-via `POST /api/setInterval`). Each tick:
+Interval default: 60 s. Each tick via `Promise.allSettled`:
 
-1. Fetch all apps from MongoDB.
-2. For each app → for each endpoint: `fetch(endpoint.name)` (the URL is stored as `name`).
-3. Push the HTTP status code + timestamp as a new `iLog` onto `endpoint.logs`.
-4. Sort logs by time, **keep only the last 10**.
-5. Derive endpoint status: all-200/302 → Stable; some bad → Unstable; all bad (10/10) → Down.
-6. Derive app status from endpoint statuses; if any open (unfixed) report exists and the
-   app would be Stable, bump to Unstable.
-7. `Apps.updateOne` with the new state.
+1. Fetch all apps + endpoints from SQLite.
+2. For each endpoint: `fetch(endpoint.name)` → insert log (HTTP status + ISO timestamp).
+3. Trim logs: DELETE oldest rows when count > 10.
+4. After all settled: `updateAllAppsStatus()` — recomputes endpoint status (Stable /
+   Unstable / Down) and app status from last 10 logs.
 
-**Important:** logs are capped at 10 per endpoint server-side. The frontend
-receives the last N logs filtered by a time window (hours), not a count.
-
-### Data model
-
-```
-App {
-  appName: string
-  status: "Stable" | "Unstable" | "Down"
-  endpoints: [{
-    name: string        ← the URL being polled
-    status: Status
-    logs: [{ response: number, time: Date }]
-  }]
-  reports: [{
-    _id: string
-    endpoint: string
-    state: string
-    message: string
-    fixed: boolean
-  }]
-}
-
-User {
-  username: string
-  email: string
-  password: string      ← bcrypt hash
-  apps: string[]        ← array of App._id strings
-  updateInterval: number
-}
-```
-
-Database: MongoDB, db name `API-Watchdog`, single `apps` collection + `users` collection
-(inferred — model file uses `appDb.model("apps", ...)`).
-
-## Frontend (`frontend/`)
+## Frontend (`packages/fe/`)
 
 ```
 src/
-  App.tsx               Router setup (React Router v7 createBrowserRouter)
-  main.tsx              Root render, GoogleOAuthProvider, Mantine styles
-  apiCallers/
-    AuthApiCaller.ts    Login / Register / getLocalStorageUser
+  main.tsx                createRoot, StrictMode
+  App.tsx                 BrowserRouter, AuthProvider, route tree
+  api/
+    client.ts             axios instance (baseURL from VITE_API_URL or localhost:3000)
+    auth.ts               login(), register(), getStoredUser(), storeUser(), clearUser()
+    apps.ts               getAllApps(), getUserApps(), createApp(), addAppToUser(),
+                          addEndpointToApp(), getAppWithLogs(), createBugReport(),
+                          markReportFixed(), setPollingInterval()
   components/
-    ApiCaller.ts        All non-auth API calls (getAllApps, createApp, addEndpoint, etc.)
-    auth/               AuthContext (React Context), Login page, GoogleButton
-    shared/             MainLayout, HeaderMegaMenu, AddAppCard, Settings, PowerButton,
-                        ToggleThemeComp, AuthGroupLarge, AuthGroupMobile, ErrorPage
-    publicDashboard/    PublicDashboard, PubDashboardComp, PubDashCard, ColoredStatus
-    individualDashboard/ AppDashboard, EndpointDashboards, AppPieChart, AddEndpointCard,
-                        AverageStatsComp
-    DevDashboard/       DevDashboard
-  types/                Frontend TS interfaces (IApp, IEndpoint, ILog, IReport, NavLink, Status, User)
+    auth/
+      AuthContext.tsx      IUser | null state, AuthProvider, useAuth()
+      Login.tsx            Glassmorphism card — email+password only (no Google OAuth)
+    shared/
+      MainLayout.tsx       Outlet wrapper with 240px sidebar offset
+      Sidebar.tsx          Fixed 240px desktop nav + mobile drawer; Add App, Settings
+      Modal.tsx            Reusable dialog backdrop
+      AddAppModal.tsx      Create app + associate to user
+      SettingsModal.tsx    Frequency + period selects → setPollingInterval()
+    publicDashboard/
+      PublicDashboard.tsx  Bento grid of all apps
+      AppCard.tsx          Status badge + top-3 endpoints + bug report trigger
+      StatusBadge.tsx      Pill badge (Stable/Unstable/Down) + helpers statusIcon/statusColor
+      BugReportModal.tsx   File a bug report against an endpoint
+    devDashboard/
+      DevDashboard.tsx     Same grid filtered to currentUser's apps
+    individualDashboard/
+      AppDashboard.tsx     Summary stats + endpoints grid + reports list
+      EndpointLogBars.tsx  Colored h-3 bars per log (green/orange/red by HTTP status)
+      UptimeDonut.tsx      SVG donut chart — uptime % per endpoint
+      AddEndpointModal.tsx Add a URL endpoint to an app
 ```
 
-### Data flow (frontend)
+### Route tree
 
 ```
-PublicDashboard / DevDashboard
-  └─ getAllApps() / GetUserApps()   API → state
-  └─ PubDashboardComp
-       └─ PubDashCard[]             displays name + status + top-3 endpoints
-       └─ AddAppCard               modal → createApp() + addAppToUser()
-
-AppDashboard (/pubdash/:appId)
-  └─ getAppWithLatestLogs()         polls on mount + setInterval(frequency)
-  └─ AppPieChart                   Mantine PieChart over endpoint logs
-  └─ BugsList                      shows open reports; mark fixed via updateReport()
-  └─ EndpointsDashboard
-       └─ EndpointCard[]            log history bar (colored dots, tooltip per dot)
-       └─ AddEndpointCard           modal → addEndpointToApp()
+/login                  <Login> (no layout)
+/                       <MainLayout>
+  index                 <PublicDashboard>
+  devdash               <DevDashboard>
+  pubdash/:appId        <AppDashboard>
+*                       redirect to /
 ```
 
-### Status color system
+### Design system
 
-| Status | Tailwind text | Tailwind bg |
-|---|---|---|
-| Stable | `text-green-500` | `bg-green-500` |
-| Unstable | `text-yellow-500` | `bg-yellow-500` |
-| Down | `text-red-500` | `bg-red-500` |
+Pure Tailwind v3 — no Mantine. Custom tokens in `tailwind.config.js` map directly
+from the Stitch design file: background #131313, surface layers, primary #adc6ff,
+secondary #d0bcff, tertiary #4fdbc8, error #ffb4ab. Typography scale uses Geist
+(UI) and JetBrains Mono (code/labels). Material Symbols Outlined icon font via
+Google Fonts (variable font, weight 300).
 
-## Layers and dependency direction
+## Dependency direction
 
 ```
-Browser (React SPA)
-  └─ HTTP (axios, port 3000)
-Express API (port 3000)
-  └─ Mongoose
-MongoDB (db: API-Watchdog)
-```
+Browser (React SPA, Vite dev / dist)
+  └─ HTTP (axios → localhost:3000 or VITE_API_URL)
+Express 5 API (packages/be)
+  └─ better-sqlite3
+SQLite file (data/watchdog.db)
 
-No shared code package between frontend and backend — types are duplicated.
+Both be and fe import types from:
+packages/shared/src/index.ts  (TypeScript path alias, not a built package)
+```
