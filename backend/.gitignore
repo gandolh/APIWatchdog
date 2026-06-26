@@ -1,9 +1,0 @@
-.env
-node_modules/
-coverage/
-.vscode/
-dist/
-build
-
-# Mac-specific file
-**/.DS_Store

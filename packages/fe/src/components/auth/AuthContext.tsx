@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import type { IUser } from '@apiwatchdog/shared';
+import { getStoredUser } from '../../api/auth';
 
 interface AuthContextValue {
   currentUser: IUser | null;
@@ -12,7 +13,7 @@ const AuthContext = createContext<AuthContextValue>({
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<IUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<IUser | null>(getStoredUser);
   return (
     <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
       {children}

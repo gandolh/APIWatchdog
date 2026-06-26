@@ -23,3 +23,15 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Playwright artifacts
+playwright/screenshots/
+playwright/**/*.png
+playwright/**/*.jpeg
+playwright/**/*.webm
+playwright/**/*.zip
+.playwright-mcp/
+
+# SQLite data
+data/
+packages/be/data/

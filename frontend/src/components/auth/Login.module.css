@@ -1,9 +1,0 @@
-.bglogin {
-    min-height: 100dvh;
-    max-width: 100dvw;
-    background-size: cover;
-    /* background-color: pink; */
-    /* background-image: url("helloBG.webp"); */
-    background: linear-gradient(to top, #09203f 0%, #537895 100%);
-    background-position: right;
-  }

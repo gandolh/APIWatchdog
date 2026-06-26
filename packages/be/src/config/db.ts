@@ -1,7 +1,8 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 
-const DB_PATH = path.resolve(__dirname, '../../data/watchdog.db');
+// Resolves to packages/be/data/watchdog.db regardless of __dirname depth
+const DB_PATH = process.env.DB_PATH ?? path.resolve(__dirname, '../../data/watchdog.db');
 
 const db = new Database(DB_PATH);
 
