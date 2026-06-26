@@ -2,7 +2,6 @@ import express from 'express';
 import userRouter from './routes/user';
 import dotenv from 'dotenv';
 import db from './config/dbConnection';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import appRouter from './routes/app';
 import updateAtInterval from './utils/updateLogs';
@@ -13,8 +12,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 
 const port = process.env.PORT || 3000;
 

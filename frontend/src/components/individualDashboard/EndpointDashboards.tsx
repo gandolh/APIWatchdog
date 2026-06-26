@@ -1,11 +1,11 @@
-import { Card, Group, Stack, Tooltip } from "@mantine/core";
+import { Card, Group, Tooltip } from "@mantine/core";
 import ColoredStatus, { getBgColor } from "../publicDashboard/ColoredStatus";
 import { Status } from "../../types/Status";
 import iEndpoint from "../../types/IEndpoint";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import iLog from "../../types/ILog";
 import AddEndpointCard from "./AddEndpointCard";
-import { useAuthContext } from "../auth/AuthContext";
+
 
 interface EndpointDashboardsProps {
   endpoints: iEndpoint[];
@@ -31,33 +31,8 @@ export function getStatus(statusCode: Number): Status {
 }
 
 
-function getEvenlySpacedDates(startDate: Date, endDate: Date, numDates: number): Date[] {
-  const diff = endDate.getTime() - startDate.getTime();
-  const step = diff / (numDates - 1);
-  return Array.from({ length: numDates }, (_, i) => new Date(startDate.getTime() + i * step));
-}
-
-
-const DateComponent = ({ date} : {date: Date}) => {
-  const localTime = date.toLocaleString("en-us").split(", ")
-  return (
-    <Stack gap={1} className="text-center">
-        <span>{localTime[0]}</span>
-        <span>{localTime[1]}</span>
-    </Stack>
-  )
-
-}
-
 const EndpointCard = ({ name, status, logs }: EndpointCardProps) => {
-  // ultimele 10 logs
-  // 200, 201, 302 - verde
-  // daca sunt toate 10 down -> down
-  // altfel unstable
-
   const [last10Logs, setLast10Logs] = useState<MyLog[]>([]);
-  // const [fragmentDates, setFragmentDates] = useState<Date[]>([]);
-  const {curentUser } = useAuthContext();
 
   // const getSLotsCount = () => {
   //  return (curentUser?.period ?? 24)* 3600 / (curentUser?.frequency ?? 60);

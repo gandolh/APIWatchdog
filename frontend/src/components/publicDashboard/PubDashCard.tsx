@@ -5,7 +5,7 @@ import { IconBug } from "@tabler/icons-react";
 import { Select, Stack, TextInput, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
-import { MouseEvent, useContext, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CreateBugReport } from "../ApiCaller.ts";
 import { useAuthContext } from "../auth/AuthContext.tsx";
@@ -81,7 +81,7 @@ const CreateBugForm = ({ app, closeModal }: CreateBugForm) => {
   );
 };
 
-const Card = ({ app, OnClick, isUserDashboard }: CardProps) => {
+const Card = ({ app, isUserDashboard }: CardProps) => {
   const {curentUser } = useAuthContext();
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();

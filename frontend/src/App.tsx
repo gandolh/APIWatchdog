@@ -13,12 +13,12 @@ import AppDashboard from './components/individualDashboard/AppDashboard';
 
 const router = createBrowserRouter([
   {
-    path: "",
+    path: "/",
     element: <MainLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "",
+        index: true,
         element: <PublicDashboard />
       },
       {
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         element: <AppDashboard/>
       },
       {
-        path: "/devdash",
+        path: "devdash",
         element: <DevDashboard />
       },
     ]

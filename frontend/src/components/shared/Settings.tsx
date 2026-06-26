@@ -78,7 +78,7 @@ const Settings = () => {
       Number.parseInt(valuePeriod) *
       ConvertLetterPerToInt(valuePeriod.charAt(valuePeriod.length - 1));
     setCurentUser({ ...curentUser, frequency: freq, period: per } as User);
-    SetIntervalFrequency(freq).then((el) => console.log("A mers "));
+    SetIntervalFrequency(freq).then(() => console.log("A mers "));
   };
 
   return (

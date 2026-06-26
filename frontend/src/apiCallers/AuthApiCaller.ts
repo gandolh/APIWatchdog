@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useAuthContext } from '../components/auth/AuthContext';
 
 const getLocalStorageUser = () : User | null => {
     const user = window.localStorage.getItem("authenticatedUser");

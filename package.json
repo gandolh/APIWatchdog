@@ -1,0 +1,12 @@
+{
+  "name": "apiwatchdog",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev:be": "npm -w @apiwatchdog/be run dev",
+    "dev:fe": "npm -w @apiwatchdog/fe run dev",
+    "build:be": "npm -w @apiwatchdog/be run build",
+    "build:fe": "npm -w @apiwatchdog/fe run build",
+    "build": "npm run build:be && npm run build:fe"
+  }
+}

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WatchDog - Developer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "secondary-container": "#8a4cfc",
+                "on-background": "#0b1c30",
+                "on-primary": "#ffffff",
+                "surface-variant": "#d3e4fe",
+                "background": "#f8f9ff",
+                "surface-container-low": "#eff4ff",
+                "tertiary": "#4d556b",
+                "surface-container-highest": "#d3e4fe",
+                "on-primary-container": "#eeefff",
+                "error-container": "#ffdad6",
+                "on-tertiary": "#ffffff",
+                "surface": "#f8f9ff",
+                "on-secondary-fixed": "#25005a",
+                "surface-tint": "#0053db",
+                "on-primary-fixed": "#00174b",
+                "inverse-on-surface": "#eaf1ff",
+                "secondary": "#712ae2",
+                "outline-variant": "#c3c6d7",
+                "primary": "#004ac6",
+                "primary-container": "#2563eb",
+                "error": "#ba1a1a",
+                "inverse-primary": "#b4c5ff",
+                "primary-fixed-dim": "#b4c5ff",
+                "on-secondary": "#ffffff",
+                "on-secondary-container": "#fffbff",
+                "surface-dim": "#cbdbf5",
+                "surface-container-lowest": "#ffffff",
+                "on-error-container": "#93000a",
+                "primary-fixed": "#dbe1ff",
+                "tertiary-container": "#656d84",
+                "on-tertiary-fixed-variant": "#3f465c",
+                "on-error": "#ffffff",
+                "tertiary-fixed": "#dae2fd",
+                "surface-container-high": "#dce9ff",
+                "on-primary-fixed-variant": "#003ea8",
+                "on-secondary-fixed-variant": "#5a00c6",
+                "inverse-surface": "#213145",
+                "on-tertiary-container": "#eef0ff",
+                "surface-container": "#e5eeff",
+                "on-surface-variant": "#434655",
+                "secondary-fixed": "#eaddff",
+                "tertiary-fixed-dim": "#bec6e0",
+                "outline": "#737686",
+                "secondary-fixed-dim": "#d2bbff",
+                "surface-bright": "#f8f9ff",
+                "on-surface": "#0b1c30",
+                "on-tertiary-fixed": "#131b2e"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-desktop": "32px",
+                "container-max": "1440px",
+                "base": "4px",
+                "gutter": "16px",
+                "margin-mobile": "16px"
+        },
+        "fontFamily": {
+                "body-md": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Geist"
+                ],
+                "label-sm": [
+                        "JetBrains Mono"
+                ],
+                "headline-md": [
+                        "Geist"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Geist"
+                ],
+                "label-md": [
+                        "JetBrains Mono"
+                ]
+        },
+        "fontSize": {
+                "body-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "10px",
+                        {
+                                "lineHeight": "14px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-md": [
+                        "20px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.02em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Specialized UI Components */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(195, 198, 215, 0.4);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        
+        .status-pulse-green {
+            box-shadow: 0 0 0 0 rgba(77, 85, 107, 0.4);
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(77, 85, 107, 0.4); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(77, 85, 107, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(77, 85, 107, 0); }
+        }
+
+        .status-pulse-red {
+            box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.4);
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.4); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(186, 26, 26, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(186, 26, 26, 0); }
+        }
+      </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface text-primary fixed top-0 w-full z-50 flex justify-between items-center px-gutter max-w-container-max mx-auto border-b border-outline-variant/30 h-[60px] docked full-width top-0">
+<!-- Brand Logo -->
+<div class="flex items-center gap-2 shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="security" data-weight="fill" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-headline-lg text-headline-lg bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">WatchDog</span>
+</div>
+<!-- Navigation Links (Web) -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-sm text-label-sm uppercase" href="#">All apps</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 hover:text-primary transition-colors duration-200 font-label-sm text-label-sm uppercase" href="#">My apps</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button aria-label="Search" class="hidden text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button aria-label="Settings" class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant/30 cursor-pointer hover:border-primary transition-colors">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A close up portrait of a software developer looking focused in a dimly lit server room setting. High contrast, blue and purple neon lighting reflecting on their glasses, intense technical mood. Dark background, shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR_6J89MMEC3DzJf5go9RMVzM3LLXgBdHtkkzB0gP94kwf0CLbcByvUAi-9dUZR_ak6bcdp2_VXo3Gj3c4MNm0_8ue0ctc3SfVBIj9esM5xNyfk0BkI3A6HKk-z5XO3-xk384AW8_jVF66uJy8Q0G_sYywDi1_7Fppr1XLPKwavb6PIUNbNjf1kxsnpXnUiedEnqriPNuzXUY-km2-IfT1o9S9by4yoSI0Uz3wSIlV2sIy4-tFdEX2qwNSOLknszMg_TpC-h5PBe7p"/>
+</div>
+</div>
+</header>
+<!-- Main Layout Container -->
+<div class="flex flex-1 pt-[60px] w-full max-w-container-max mx-auto">
+<!-- SideNavBar (Desktop) -->
+<aside class="bg-surface-container-lowest text-primary border-r border-outline-variant/30 fixed left-0 top-0 h-full w-[240px] hidden md:flex flex flex-col h-full py-4 px-2 pt-[80px]">
+<button class="mb-8 mx-2 w-full bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-sm text-label-sm uppercase py-2 rounded hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                Add New App
+            </button>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="bg-secondary-container text-on-secondary-container rounded-lg font-bold hover:bg-primary-container/10 transition-all duration-150 flex items-center gap-3 px-3 py-2 font-label-sm text-label-sm uppercase" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 hover:bg-primary-container/10 transition-all duration-150 flex items-center gap-3 px-3 py-2 font-label-sm text-label-sm uppercase rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="monitor_heart">monitor_heart</span>
+                    Monitoring
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 hover:bg-primary-container/10 transition-all duration-150 flex items-center gap-3 px-3 py-2 font-label-sm text-label-sm uppercase rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="terminal">terminal</span>
+                    Logs
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 hover:bg-primary-container/10 transition-all duration-150 flex items-center gap-3 px-3 py-2 font-label-sm text-label-sm uppercase rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="error">error</span>
+                    Incidents
+                </a>
+</nav>
+<div class="mt-auto border-t border-outline-variant/30 pt-2 flex flex-col gap-1">
+<a class="text-on-surface-variant hover:bg-surface-variant/50 hover:bg-primary-container/10 transition-all duration-150 flex items-center gap-3 px-3 py-2 font-label-sm text-label-sm uppercase rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+                    Settings
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 hover:bg-primary-container/10 transition-all duration-150 flex items-center gap-3 px-3 py-2 font-label-sm text-label-sm uppercase rounded" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="help">help</span>
+                    Support
+                </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[240px] p-margin-desktop w-full overflow-x-hidden">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-1">My Applications</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage and monitor your deployed API instances.</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-lowest border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded hover:border-primary hover:text-primary transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="filter_list">filter_list</span>
+                        Filter
+                    </button>
+<button class="bg-surface-container-lowest border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded hover:border-primary hover:text-primary transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="sort">sort</span>
+                        Sort
+                    </button>
+</div>
+</div>
+<!-- Dashboard Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- App Card 1 - Healthy -->
+<div class="glass-card rounded-xl p-4 flex flex-col relative group overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+<div class="flex justify-between items-start mb-4 relative">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-low border border-outline-variant/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="api">api</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Payment Gateway</h3>
+<span class="font-label-md text-label-md text-on-surface-variant">prod-us-east-1</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-lowest px-2 py-1 rounded-sm border border-outline-variant/30 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-tertiary status-pulse-green"></div>
+<span class="font-label-sm text-label-sm text-tertiary uppercase">100% Uptime</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4 mt-auto relative">
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/30 shadow-sm">
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Latency (99th)</div>
+<div class="font-label-md text-label-md text-on-surface">42ms</div>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/30 shadow-sm">
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Req/sec</div>
+<div class="font-label-md text-label-md text-on-surface">1,204</div>
+</div>
+</div>
+<div class="mt-2 pt-4 border-t border-outline-variant/30 relative">
+<button class="w-full bg-surface border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2 group-hover:border-primary/50 shadow-sm">
+                            Go to dev dashboard
+                            <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- App Card 2 - Issue -->
+<div class="glass-card rounded-xl p-4 flex flex-col relative group overflow-hidden border-error/20">
+<div class="absolute top-0 right-0 w-32 h-32 bg-error/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+<div class="flex justify-between items-start mb-4 relative">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-error/5 border border-error/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-error" data-icon="database">database</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">User Auth DB</h3>
+<span class="font-label-md text-label-md text-on-surface-variant">eu-central-2</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-error-container/20 px-2 py-1 rounded-sm border border-error-container/50 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-error status-pulse-red"></div>
+<span class="font-label-sm text-label-sm text-error uppercase">Degraded</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4 mt-auto relative">
+<div class="bg-surface-container-lowest p-3 rounded border border-error/20 shadow-sm">
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Latency (99th)</div>
+<div class="font-label-md text-label-md text-error">850ms</div>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/30 shadow-sm">
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Req/sec</div>
+<div class="font-label-md text-label-md text-on-surface">450</div>
+</div>
+</div>
+<div class="mt-2 pt-4 border-t border-outline-variant/30 relative">
+<button class="w-full bg-surface border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded hover:border-error hover:text-error transition-colors flex items-center justify-center gap-2 group-hover:border-error/50 shadow-sm">
+                            Go to dev dashboard
+                            <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- App Card 3 - Healthy -->
+<div class="glass-card rounded-xl p-4 flex flex-col relative group overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+<div class="flex justify-between items-start mb-4 relative">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-low border border-outline-variant/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="image">image</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Image Processor</h3>
+<span class="font-label-md text-label-md text-on-surface-variant">worker-pool-a</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-lowest px-2 py-1 rounded-sm border border-outline-variant/30 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-tertiary status-pulse-green"></div>
+<span class="font-label-sm text-label-sm text-tertiary uppercase">Stable</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4 mt-auto relative">
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/30 shadow-sm">
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Queue Depth</div>
+<div class="font-label-md text-label-md text-on-surface">12 items</div>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/30 shadow-sm">
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Throughput</div>
+<div class="font-label-md text-label-md text-on-surface">45/min</div>
+</div>
+</div>
+<div class="mt-2 pt-4 border-t border-outline-variant/30 relative">
+<button class="w-full bg-surface border border-outline-variant/50 text-on-surface font-label-md text-label-md px-4 py-2 rounded hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2 group-hover:border-primary/50 shadow-sm">
+                            Go to dev dashboard
+                            <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -7,7 +7,6 @@ import {
   ScrollArea,
   rem,
   Stack,
-  useMantineColorScheme,
   Image,
   Text
 } from '@mantine/core';
@@ -38,7 +37,6 @@ export function HeaderMegaMenu({ NavLinks, handleChangeActive }: HeaderMegaMenuP
   }, []);
 
   const { curentUser } = useAuthContext();
-  const { colorScheme } = useMantineColorScheme();
 
 
   return (

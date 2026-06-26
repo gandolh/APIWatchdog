@@ -1,7 +1,6 @@
 import { PieChart, PieChartCell } from "@mantine/charts";
 import { useEffect, useState } from "react";
 import iEndpoint from "../../types/IEndpoint";
-import { MyLog, getStatus } from "./EndpointDashboards";
 
 interface AppPieChartProps {
   endpoints: iEndpoint[];

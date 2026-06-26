@@ -94,6 +94,9 @@ function AuthenticationForm(props: PaperProps) {
           const currentUser: User = {
             email: resp.email,
             username: resp.name,
+            apps: [],
+            frequency: 60,
+            period: 24,
           };
           AuthConfirmed(currentUser);
           navigate("/");
@@ -112,7 +115,7 @@ function AuthenticationForm(props: PaperProps) {
       email: form.values.email,
       password: form.values.password,
       username: form.values.username,
-    } as User;
+    } as unknown as User;
 
     RegisterCall(user).then((ok) => {
       // console.log(ok);

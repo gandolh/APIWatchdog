@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>App Detail Dashboard - WatchDog</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "secondary-container": "#8a4cfc",
+                "on-background": "#0b1c30",
+                "on-primary": "#ffffff",
+                "surface-variant": "#d3e4fe",
+                "background": "#f8f9ff",
+                "surface-container-low": "#eff4ff",
+                "tertiary": "#4d556b",
+                "surface-container-highest": "#d3e4fe",
+                "on-primary-container": "#eeefff",
+                "error-container": "#ffdad6",
+                "on-tertiary": "#ffffff",
+                "surface": "#f8f9ff",
+                "on-secondary-fixed": "#25005a",
+                "surface-tint": "#0053db",
+                "on-primary-fixed": "#00174b",
+                "inverse-on-surface": "#eaf1ff",
+                "secondary": "#712ae2",
+                "outline-variant": "#c3c6d7",
+                "primary": "#004ac6",
+                "primary-container": "#2563eb",
+                "error": "#ba1a1a",
+                "inverse-primary": "#b4c5ff",
+                "primary-fixed-dim": "#b4c5ff",
+                "on-secondary": "#ffffff",
+                "on-secondary-container": "#fffbff",
+                "surface-dim": "#cbdbf5",
+                "surface-container-lowest": "#ffffff",
+                "on-error-container": "#93000a",
+                "primary-fixed": "#dbe1ff",
+                "tertiary-container": "#656d84",
+                "on-tertiary-fixed-variant": "#3f465c",
+                "on-error": "#ffffff",
+                "tertiary-fixed": "#dae2fd",
+                "surface-container-high": "#dce9ff",
+                "on-primary-fixed-variant": "#003ea8",
+                "on-secondary-fixed-variant": "#5a00c6",
+                "inverse-surface": "#213145",
+                "on-tertiary-container": "#eef0ff",
+                "surface-container": "#e5eeff",
+                "on-surface-variant": "#434655",
+                "secondary-fixed": "#eaddff",
+                "tertiary-fixed-dim": "#bec6e0",
+                "outline": "#737686",
+                "secondary-fixed-dim": "#d2bbff",
+                "surface-bright": "#f8f9ff",
+                "on-surface": "#0b1c30",
+                "on-tertiary-fixed": "#131b2e"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-desktop": "32px",
+                "container-max": "1440px",
+                "base": "4px",
+                "gutter": "16px",
+                "margin-mobile": "16px"
+        },
+        "fontFamily": {
+                "body-md": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Geist"
+                ],
+                "label-sm": [
+                        "JetBrains Mono"
+                ],
+                "headline-md": [
+                        "Geist"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Geist"
+                ],
+                "label-md": [
+                        "JetBrains Mono"
+                ]
+        },
+        "fontSize": {
+                "body-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "10px",
+                        {
+                                "lineHeight": "14px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-md": [
+                        "20px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.02em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .icon-fill { font-variation-settings: 'FILL' 1; }
+        
+        /* Custom scrollbar for bug list */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: theme('colors.outline'); }
+        
+        .donut-chart {
+            background: conic-gradient(
+                #4fdbc8 0% 75%, 
+                theme('colors.error') 75% 90%, 
+                theme('colors.outline-variant') 90% 100%
+            );
+            border-radius: 50%;
+            mask-image: radial-gradient(transparent 55%, black 56%);
+            -webkit-mask-image: radial-gradient(transparent 55%, black 56%);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row">
+<!-- JSON Component: SideNavBar -->
+<nav class="bg-surface-container-lowest fixed left-0 top-0 h-full w-[240px] hidden md:flex flex-col py-stack-md px-stack-sm bg-surface-container-low border-r border-outline-variant/10 z-40">
+<div class="mb-stack-lg px-stack-sm">
+<h1 class="font-display text-headline-md bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">WatchDog</h1>
+<p class="font-label-caps text-label-md text-on-surface-variant mt-1 tracking-widest uppercase">API Monitoring</p>
+</div>
+<button class="mb-stack-lg mx-stack-sm bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container py-2 px-4 rounded font-label-caps text-label-md tracking-widest uppercase flex items-center justify-center gap-2 hover:brightness-110 transition-all duration-150 active:scale-95">
+<span class="material-symbols-outlined text-[18px]">add</span>
+            Add New App
+        </button>
+<ul class="flex-1 space-y-1">
+<!-- Active State: Dashboard -->
+<li>
+<a class="bg-secondary-container text-on-secondary-container rounded-lg font-bold flex items-center gap-3 px-3 py-2 transition-all duration-150 active:scale-98" href="#">
+<span class="material-symbols-outlined text-[20px] icon-fill text-on-secondary-container">dashboard</span>
+<span class="font-body-md text-body-md text-on-secondary-container">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant hover:text-primary transition-all duration-150 rounded-lg flex items-center gap-3 px-3 py-2 active:scale-98" href="#">
+<span class="material-symbols-outlined text-[20px]">monitor_heart</span>
+<span class="font-body-md text-body-md">Monitoring</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant hover:text-primary transition-all duration-150 rounded-lg flex items-center gap-3 px-3 py-2 active:scale-98" href="#">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+<span class="font-body-md text-body-md">Logs</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant hover:text-primary transition-all duration-150 rounded-lg flex items-center gap-3 px-3 py-2 active:scale-98" href="#">
+<span class="material-symbols-outlined text-[20px]">error</span>
+<span class="font-body-md text-body-md">Incidents</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto border-t border-outline-variant/10 pt-stack-sm">
+<ul class="space-y-1">
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant hover:text-primary transition-all duration-150 rounded-lg flex items-center gap-3 px-3 py-2 active:scale-98" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant hover:text-primary transition-all duration-150 rounded-lg flex items-center gap-3 px-3 py-2 active:scale-98" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-body-md text-body-md">Support</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- JSON Component: TopNavBar -->
+<header class="bg-surface fixed top-0 w-full z-50 flex justify-between items-center px-gutter max-w-container-max mx-auto docked full-width h-[60px] bg-surface-container-high border-b border-outline-variant/10 md:hidden">
+<div class="flex items-center gap-4">
+<span class="font-display text-display bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary text-headline-md font-bold md:hidden">WatchDog</span>
+</div>
+<!-- Mobile nav links (hidden md) -->
+<nav class="hidden">
+<!-- Navigation links are specified, but TopNavBar is mobile only in context of SideNav. 
+                 Will hide top nav links on mobile to save space, rely on hamburger or bottom nav if it existed.
+                 The prompt says "On MOBILE... prohibit top-row text links". -->
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95 opacity-80 md:hidden">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 w-full md:ml-[240px] pt-[60px] md:pt-0 p-gutter md:p-margin-desktop overflow-x-hidden">
+<!-- Top Full-Width Card: App Header -->
+<div class="bg-surface-container border border-outline-variant/30 rounded-lg p-gutter mb-gutter flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Payment Gateway API</h2>
+<span class="bg-[#4fdbc8]/10 text-[#006b5e] border border-[#4fdbc8]/30 px-2 py-0.5 rounded font-label-caps text-label-md tracking-widest uppercase flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4fdbc8] animate-pulse"></span>
+                        Healthy
+                    </span>
+</div>
+<p class="font-code-md text-body-md text-on-surface-variant font-medium">ID: app_prod_99x2b • Region: us-east-1</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-transparent border border-outline-variant hover:border-primary text-on-surface font-label-caps text-label-md px-4 py-2 rounded transition-colors uppercase tracking-widest">
+                    Manage Rules
+                </button>
+<button class="bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-label-caps text-label-md px-4 py-2 rounded hover:brightness-110 transition-all uppercase tracking-widest">
+                    View Raw Logs
+                </button>
+</div>
+</div>
+<!-- Three-Column Grid (3+6+3) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-gutter">
+<!-- Left: Status Code Breakdown (lg:col-span-3) -->
+<div class="lg:col-span-3 bg-surface-container border border-outline-variant/30 rounded-lg p-gutter flex flex-col">
+<h3 class="font-label-caps text-label-md text-on-surface-variant tracking-widest uppercase mb-4">Status Codes (24h)</h3>
+<div class="flex-1 space-y-4">
+<!-- 2xx -->
+<div>
+<div class="flex justify-between items-end mb-1">
+<span class="font-code-md text-body-md text-[#006b5e] font-medium">2xx Success</span>
+<span class="font-body-sm text-body-md text-on-surface">1.2M</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-[#4fdbc8] w-[92%]"></div>
+</div>
+</div>
+<!-- 3xx -->
+<div>
+<div class="flex justify-between items-end mb-1">
+<span class="font-code-md text-body-md text-primary font-medium">3xx Redir</span>
+<span class="font-body-sm text-body-md text-on-surface">45K</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[5%]"></div>
+</div>
+</div>
+<!-- 4xx -->
+<div>
+<div class="flex justify-between items-end mb-1">
+<span class="font-code-md text-body-md text-[#d97706] font-medium">4xx Client</span>
+<span class="font-body-sm text-body-md text-on-surface">12K</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-[#facc15] w-[2%]"></div>
+</div>
+</div>
+<!-- 5xx -->
+<div>
+<div class="flex justify-between items-end mb-1">
+<span class="font-code-md text-body-md text-error font-medium">5xx Server</span>
+<span class="font-body-sm text-body-md text-on-surface">842</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-error w-[1%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center: Scrollable Bug List (lg:col-span-6) -->
+<div class="lg:col-span-6 bg-surface-container border border-outline-variant/30 rounded-lg p-0 flex flex-col overflow-hidden h-[400px]">
+<div class="p-gutter border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-high">
+<h3 class="font-label-caps text-label-md text-on-surface-variant tracking-widest uppercase">Active Incidents &amp; Anomalies</h3>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant cursor-pointer hover:text-primary transition-colors">filter_list</span>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-2">
+<!-- Group 1 -->
+<div class="mb-4">
+<div class="px-2 py-1 mb-2">
+<span class="font-code-md text-body-md text-secondary bg-secondary/10 px-2 py-0.5 rounded font-medium">POST /v1/checkout/process</span>
+</div>
+<div class="space-y-1">
+<div class="flex items-start gap-3 p-2 rounded hover:bg-surface-variant/50 transition-colors group">
+<span class="bg-error/20 text-error font-code-md text-[10px] px-1.5 py-0.5 rounded mt-0.5 font-medium">503</span>
+<div class="flex-1">
+<p class="font-body-sm text-body-md text-on-surface">Connection timeout to upstream provider.</p>
+<p class="font-body-sm text-[10px] text-on-surface-variant mt-0.5">2 mins ago • Trace: tr_8829ab</p>
+</div>
+<button class="text-outline-variant group-hover:text-primary transition-colors" title="Investigate">
+<span class="material-symbols-outlined text-[16px]">build</span>
+</button>
+</div>
+<div class="flex items-start gap-3 p-2 rounded hover:bg-surface-variant/50 transition-colors group">
+<span class="bg-error/20 text-error font-code-md text-[10px] px-1.5 py-0.5 rounded mt-0.5 font-medium">500</span>
+<div class="flex-1">
+<p class="font-body-sm text-body-md text-on-surface">NullPointerException in PaymentValidator.java:142</p>
+<p class="font-body-sm text-[10px] text-on-surface-variant mt-0.5">15 mins ago • Trace: tr_8828xx</p>
+</div>
+<button class="text-outline-variant group-hover:text-primary transition-colors" title="Investigate">
+<span class="material-symbols-outlined text-[16px]">build</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Group 2 -->
+<div class="mb-4">
+<div class="px-2 py-1 mb-2">
+<span class="font-code-md text-body-md text-secondary bg-secondary/10 px-2 py-0.5 rounded font-medium">GET /v1/users/profile</span>
+</div>
+<div class="space-y-1">
+<div class="flex items-start gap-3 p-2 rounded hover:bg-surface-variant/50 transition-colors group">
+<span class="bg-[#facc15]/20 text-[#d97706] font-code-md text-[10px] px-1.5 py-0.5 rounded mt-0.5 font-medium">429</span>
+<div class="flex-1">
+<p class="font-body-sm text-body-md text-on-surface">Rate limit exceeded for client IP 192.168.1.x</p>
+<p class="font-body-sm text-[10px] text-on-surface-variant mt-0.5">1 hour ago • 45 occurrences</p>
+</div>
+<button class="text-outline-variant group-hover:text-primary transition-colors" title="Investigate">
+<span class="material-symbols-outlined text-[16px]">build</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Pie Chart (lg:col-span-3) -->
+<div class="lg:col-span-3 bg-surface-container border border-outline-variant/30 rounded-lg p-gutter flex flex-col">
+<h3 class="font-label-caps text-label-md text-on-surface-variant tracking-widest uppercase mb-6">Error Distribution</h3>
+<div class="flex-1 flex flex-col items-center justify-center relative">
+<!-- CSS Donut Chart -->
+<div class="w-32 h-32 donut-chart relative flex items-center justify-center">
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md text-on-surface">99.9%</span>
+<span class="font-label-caps text-label-sm text-on-surface-variant uppercase tracking-widest">UPTIME</span>
+</div>
+</div>
+</div>
+<div class="mt-6 space-y-2">
+<div class="flex items-center justify-between font-body-sm text-body-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#4fdbc8]"></span>
+<span class="text-on-surface-variant">Stable</span>
+</div>
+<span class="text-on-surface font-code-md font-medium">75%</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-on-surface-variant">Server Error</span>
+</div>
+<span class="text-on-surface font-code-md font-medium">15%</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+<span class="text-on-surface-variant">Client Error</span>
+</div>
+<span class="text-on-surface font-code-md font-medium">10%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom: Full-width Endpoint Cards -->
+<h3 class="font-label-caps text-label-md text-on-surface-variant tracking-widest uppercase mb-4 mt-8">Endpoint Activity Log (Last 60 Requests)</h3>
+<div class="space-y-3">
+<!-- Endpoint Card 1 -->
+<div class="bg-surface-container border border-outline-variant/30 rounded-lg p-4 hover:border-outline-variant/60 transition-colors">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+<div class="flex items-center gap-3">
+<span class="font-code-md text-body-md text-[#006b5e] font-bold w-12">POST</span>
+<span class="font-code-md text-body-md text-on-surface font-medium">/api/v1/checkout/process</span>
+</div>
+<div class="flex gap-4 font-body-sm text-body-md text-on-surface-variant">
+<span>p95: <strong class="text-on-surface">124ms</strong></span>
+<span>Err: <strong class="text-error">0.4%</strong></span>
+</div>
+</div>
+<!-- Log History Bar (simulated 60 dots) -->
+<div class="flex items-center gap-1 w-full overflow-hidden">
+<!-- Generating a mix of dots for visual -->
+<!-- Green dots -->
+<div class="flex-1 h-3 bg-[#4fdbc8]/80 rounded-sm relative group cursor-crosshair">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 hidden group-hover:block bg-surface-bright text-on-surface border border-outline-variant text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 shadow-sm">200 OK - 110ms</div>
+</div>
+<div class="flex-1 h-3 bg-[#4fdbc8]/80 rounded-sm"></div>
+<div class="flex-1 h-3 bg-[#4fdbc8]/80 rounded-sm"></div>
+<div class="flex-1 h-3 bg-[#4fdbc8]/80 rounded-sm"></div>
+<div class="flex-1 h-3 bg-[#4fdbc8]/80 rounded-sm"></div>
+<div class="flex-1 h-3 bg-[#4fdbc8]/80 rounded-sm"></div>
+<!-- Warning dot -->
+<div class="flex-1 h-3 bg-[#facc15]/80 rounded-sm relative group cursor-crosshair">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 hidden group-hover:block bg-surface-bright text-[#d97706] border border-outline-variant text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 shadow-sm">429 Too Many Requests</div>
+</div>
+<div class="flex-1 h-3 bg-[#4fdbc8]/80 rounded-sm"></div>
+<div class="flex-1 h-3 bg-[#4fdbc8]/80 rounded-sm"></div>
+<!-- Error dot -->
+<div class="flex-1 h-3 bg-error/90 rounded-sm relative group cursor-crosshair">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 hidden group-hover:block bg-surface-bright text-error border border-outline-variant text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 shadow-sm">500 Internal Server Error</div>
+</div>
+<!-- Repeating blocks for visual density -->
+<script>
+                        for(let i=0; i<50; i++) {
+                            let colorClass = 'bg-[#4fdbc8]/80';
+                            if(Math.random() > 0.95) colorClass = 'bg-error/90';
+                            else if(Math.random() > 0.9) colorClass = 'bg-[#facc15]/80';
+                            document.write(`<div class="flex-1 h-3 ${colorClass} rounded-sm"></div>`);
+                        }
+                    </script>
+</div>
+</div>
+<!-- Endpoint Card 2 -->
+<div class="bg-surface-container border border-outline-variant/30 rounded-lg p-4 hover:border-outline-variant/60 transition-colors">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+<div class="flex items-center gap-3">
+<span class="font-code-md text-body-md text-primary font-bold w-12">GET</span>
+<span class="font-code-md text-body-md text-on-surface font-medium">/api/v1/users/profile</span>
+</div>
+<div class="flex gap-4 font-body-sm text-body-md text-on-surface-variant">
+<span>p95: <strong class="text-on-surface">45ms</strong></span>
+<span>Err: <strong class="text-on-surface">0.0%</strong></span>
+</div>
+</div>
+<div class="flex items-center gap-1 w-full overflow-hidden">
+<script>
+                        for(let i=0; i<60; i++) {
+                            let colorClass = 'bg-[#4fdbc8]/80';
+                            if(Math.random() > 0.98) colorClass = 'bg-[#facc15]/80'; // Just a few warnings
+                            document.write(`<div class="flex-1 h-3 ${colorClass} rounded-sm"></div>`);
+                        }
+                    </script>
+</div>
+</div>
+<!-- Endpoint Card 3 -->
+<div class="bg-surface-container border border-outline-variant/30 rounded-lg p-4 hover:border-outline-variant/60 transition-colors opacity-80">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+<div class="flex items-center gap-3">
+<span class="font-code-md text-body-md text-secondary font-bold w-12">PUT</span>
+<span class="font-code-md text-body-md text-on-surface font-medium">/api/v1/inventory/update</span>
+</div>
+<div class="flex gap-4 font-body-sm text-body-md text-on-surface-variant">
+<span>p95: <strong class="text-on-surface">210ms</strong></span>
+<span>Err: <strong class="text-error">1.2%</strong></span>
+</div>
+</div>
+<div class="flex items-center gap-1 w-full overflow-hidden">
+<script>
+                        for(let i=0; i<60; i++) {
+                            let colorClass = 'bg-[#4fdbc8]/80';
+                            let rand = Math.random();
+                            if(rand > 0.85 && rand < 0.95) colorClass = 'bg-[#facc15]/80'; 
+                            if(rand >= 0.95) colorClass = 'bg-error/90';
+                            document.write(`<div class="flex-1 h-3 ${colorClass} rounded-sm"></div>`);
+                        }
+                    </script>
+</div>
+</div>
+</div>
+</main>
+</body></html>
